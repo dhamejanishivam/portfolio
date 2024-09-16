@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shivam - Developer Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="assets/css/style.css">
+
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="left">Shivam's Portfolio</div>
+
+            <div class="right">
+                <ul>
+                    <li><a href="">Home</a></li>
+                    <li><a href="#aboutMe">About Me</a></li>
+                    <!-- <li><a href="/">Services</a></li> -->
+                    <li><a href="#projectLine">Projects</a></li>
+                    <li><a href="https://mail.google.com/mail/?view=cm&fs=1&to=dhamejanishivam@gmail.com&su=Conatct From Your Website&body=Hi Shivam, I just saw your website and I just want to say that" target="_blank">Contact Me</a></li>
+                </ul>
+            </div>
+
+        </nav>
+    </header>
+
+
+    <main>
+        <section class="firstSection">
+
+
+            <div class="leftSection">
+                <!-- <div>Hi, My name is</div> -->
+                <span>Hi</span> <span>My</span> <span>Name</span> <span>is</span> <br>
+
+
+                <span class="purple">Shivam</span> <br>
+
+
+                <!-- <div>and I am a Passionate</div> -->
+                <span>and</span> <span>I</span> <span>am</span> <span>a</span> <span>Passionate</span><br/>            
+
+                <span id="element"></span>
+
+                <div class="buttons">
+                    <button class="btn" onclick="downloadResume()">Download Resume</button>
+                    <button class="btn" id="btn2" onclick="visitGithub()">Visit Github</button>
+                </div>
+
+            </div>
+
+
+            <div class="rightSection">
+                <img src="bg.png" alt="">
+            </div>
+        </section>
+
+        <hr id="aboutMe">
+
+        <section class="secondSection" id="aboutMe1">
+            <span class="text-gray">What I have Studied so far</span>
+            <h1>My Education</h1>
+
+            <div class="box">
+                <div class="vertical">
+                    <img src="assets/images/school.png" alt="" class="image-top">
+
+                    <div class="vertical-title">
+                        Secondary School (-2020)
+                    </div>
+
+                    <div class="vertical-desc">
+                        I have done my Secondary schooling from Krishna Public School International
+                    </div>
+
+                </div>
+                <div class="vertical">
+                    <img src="assets/images/school2.png" alt="" class="image-top">
+
+                    <div class="vertical-title">
+                        Senior secondary  (2020-2022)
+                    </div>
+
+                    <div class="vertical-desc">
+                        I have done my Senior Secondary schooling from same school as my Secondary school KPSI
+                    </div>
+
+                </div>
+                <div class="vertical">
+                    <img src="assets/images/college.png" alt="" class="image-top">
+
+                    <div class="vertical-title">
+                        College <br> (2022-Currently)
+                    </div>
+
+                    <div class="vertical-desc">
+                        I am currently pursuing my Bachelors in Computer Science Enginerring from SSIPMT
+                        </div>
+
+                </div>
+                <div class="vertical">
+                    <img src="assets/images/web.png" alt="" class="image-top">
+
+                    <div class="vertical-title">
+                        Web Develoment Course (2024)
+                    </div>
+
+                    <div class="vertical-desc">
+                        I did Web Development course from Thought Applied Creations in <br> July '24
+                    </div>
+
+                </div>
+                <div class="vertical">
+                    <img src="assets/images/masters.png" alt="" class="image-top">
+
+                    <div class="vertical-title">
+                        Masters
+                    </div>
+
+                    <div class="vertical-desc">
+                        I'm planning to do my Masters in Computer Science after my Bachelors is finished 
+                    </div>
+
+                </div>
+            </div>
+        
+        </section>
+
+
+        <section class="thirdSection">
+            <div class="box" id="aboutBox">
+                <div class="boxTitle">
+                    More About Me 
+                </div>
+                <p id="aboutMePara"></p>
+
+            </div>
+        </section>
+
+        <hr id="projectLine">
+
+
+
+
+        <section class="fourthSection">
+
+            <h2 class="projects" style="font-weight: bolder;">
+                Projects
+            </h2>
+        
+            <br>
+            <br>
+            <div class="projectBox">
+        
+                <div class="projectName">
+                    <a href="">Heart Disease Predictor</a>
+                </div>
+        
+                <span class="projectDesc">
+                    I developed this using Machine Learning. The model uses various data points to predict the likelihood of a user having or developing heart disease in the future by analyzing symptoms entered by the user.
+                </span>
+        
+                <br>
+                <br>
+                <br>
+        
+                <div class="projectName">
+                    <a href="">Pendrive Virus</a>
+                </div>
+        
+                <span class="projectDesc">
+                    I created a Python program that, when inserted into a system, copies all necessary files. You can specify the file types that need to be copied. It also retrieves Wi-Fi data, system details, IP addresses, and can delete data from the main computer.
+                </span>
+        
+            </div>
+        </section>
+        
+
+    </main>
+
+    <div id="spotlight"></div>
+
+
+
+    <footer>
+        <div class="footer">
+            <div class="footer-first">
+                <h3>
+                    Shivam's Developer Portfolio
+                </h3>
+            </div>
+
+
+            <div class="footer-second">
+                <ul>
+                    <li><a href="">Home</a></li>
+                    <li><a href="#aboutMe">About Me</a></li>
+                    <li><a href="#projectLine">Projects</a></li>
+                    <li><a href="https://mail.google.com/mail/?view=cm&fs=1&to=dhamejanishivam@gmail.com&su=Conatct From Your Website&body=Hi Shivam, I just saw your website and I want to say that">Conatact Me</a></li>
+                </ul>
+            </div>
+
+ 
+
+            <!-- This below is link for Gmail with a predefined Subject and Body -->
+            <!-- https://mail.google.com/mail/?view=cm&fs=1&to=dhamejanishivam@gmail.com&su=Conatct From Your Website&body=Hi Shivam, I just saw your website and I think that -->
+            <div class="footer-third">
+                <ul>
+                    <li>
+                    <img src="assets/images/linkedin.png" alt=""><a href="https://www.linkedin.com/in/shivam-dhamejani-66b461245/" target="_blank"> Linked in</a>
+                    </li>
+
+                    <li>
+                    <img src="assets/images/insta.png" alt=""><a href="https://www.instagram.com/shivam__dhamejani" target="_blank"> Instagram</a>
+                    </li>
+
+                    <li>
+                    <img src="assets/images/gmail.png" alt=""><a href="https://mail.google.com/mail/?view=cm&fs=1&to=dhamejanishivam@gmail.com&su=Conatct From Your Website&body=Hi Shivam, I just saw your website and I want to say that" target="_blank"> Gmail</a>
+                    </li>
+
+                    <li>
+                    <img src="assets/images/goodread.png" alt=""><a href="https://www.goodreads.com/user/show/151649043-shivam-dhamejani" target="_blank"> Good-Reads</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="footer-fourth">
+                <!-- Scroll Up Button -->
+                <button onclick="scrollToTop()" id="scrollUpBtn" >▲</button>
+            </div>
+
+        </div>
+
+        <div class="footer-rights">
+            &#169; www.shivamsportfolio.com | All rights reserved
+        </div>
+
+    </footer>
+
+    <!-- Load library from the CDN -->
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+
+
+    <script src="assets/js/script.js"></script>
+
+
+</body>
+
+</html>
+
