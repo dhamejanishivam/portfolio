@@ -41,11 +41,18 @@ nav ul li {
 nav ul li a {
     text-decoration: none;
     color: white;
+    /* color: blue; */
+    transition: all 0.4s ease-in-out;
+    border-radius: 10px;
 }
 
 nav ul li a:hover {
-    color: rgb(153, 153, 226);
+    /* color: rgb(153, 153, 226); */
+    color: #12123e;
     font-size: 1.01rem;
+    /* text-shadow: -10px 7px white ; */
+    text-shadow: -10px 7px rgb(153, 153, 226) ;
+    text-shadow: -18px 11px white ;
 }
 
 /* ____________________________________HEADER CSS ENDS____________________________________________ */
@@ -438,11 +445,13 @@ footer .footer-rights {
     height: 0px;
     border-radius: 50%;
     /* Makes it a circle */
+    /* border: 1px solid rgba(143, 143, 238, 0.3); */
     border: none;
     background-color: rgba(143, 143, 238, 0.3);
     pointer-events: none;
     /* Allows clicks to pass through */
-    box-shadow: 0px 0px 50px 50px rgba(143, 143, 238, 0.3);
+    /* box-shadow: 0px 0px 50px 50px rgba(143, 143, 238, 0.3); */
+    box-shadow: 0px 0px 40px 40px rgba(143, 143, 238, 0.3);
     transform: translate(-50%, -50%);
     /* Centers the spotlight */
     z-index: 1000;
