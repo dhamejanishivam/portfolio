@@ -8,23 +8,25 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sofadi+One&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="assets/css/style.css">
 
 </head>
 
 <body>
-    <header>
+    <header id="headerId">
         <nav>
             <div class="left">Shivam's Portfolio</div>
 
             <div class="right">
                 <ul>
-                    <li><a href="">Home</a></li>
-                    <li><a href="#aboutMe">About Me</a></li>
+                    <li><a href="" onclick="unhideBody();">Home</a></li>
+                    <li><a href="#aboutMe" onclick="unhideBody();">About Me</a></li>
                     <!-- <li><a href="/">Services</a></li> -->
-                    <li><a href="#projectLine">Projects</a></li>
-                    <li><a href="https://mail.google.com/mail/?view=cm&fs=1&to=dhamejanishivam@gmail.com&su=Conatct From Your Website&body=Hi Shivam, I just saw your website and I just want to say that" target="_blank">Contact Me</a></li>
+                    <li><a href="#projectLine" onclick="unhideBody();">Projects</a></li>
+                    <!-- <li><a href="https://mail.google.com/mail/?view=cm&fs=1&to=dhamejanishivam@gmail.com&su=Conatct From Your Website&body=Hi Shivam, I just saw your website and I just want to say that" target="_blank">Contact Me</a></li> -->
+                    <li><a onclick="contactMeFun();">Contact Me</a></li>
                 </ul>
             </div>
 
@@ -32,7 +34,72 @@
     </header>
 
 
-    <main>
+
+
+
+    <!-- HIDDEN CONTACT FORM -->
+
+     <section id="contactForm">
+
+        <div class="leftContactBox">
+            <div class="leftBoxContent">
+                <div>Want to</div>
+                <div>start</div>
+                <div>a new</div>
+                <div>project ?</div>
+                <div id="leftBoxContentLastDiv">
+                    Or just say hello
+                </div>
+            </div>
+        </div>
+
+
+        <div class="rightContactBox">
+            
+            <div class="mailer" id="emailIdField1" onclick="copyMailId(1);" title="Click to copy">
+                shivam9644971120@gmail.com
+            </div>
+
+            <div class="mailer" id="emailIdField2" onclick="copyMailId(2);" title="Click to copy">
+                dhamejanishivam@gmail.com
+            </div>
+
+            <div class="contactSocials">
+
+
+                <div class="socialContainer">
+                    <img src="assets/images/insta.png" alt="">
+                    <a href="https://www.instagram.com/shivam__dhamejani/" target="_blank">Instagram</a>
+                </div>
+                
+                <div class="socialContainer">
+                    <img src="assets/images/whatsapplogo.png" alt="">
+                    <a href="https://wa.link/06j52w" target="_blank">Whatsapp</a>
+                </div>
+
+                <div class="socialContainer">
+                    <img src="assets/images/githublogo2.png" alt="">
+                    <a href="https://github.com/dhamejanishivam" target="_blank">Github</a>
+                </div>
+
+                <div class="socialContainer">
+                    <img src="assets/images/gmail1.png" alt="">
+                    <a href="https://mail.google.com/mail/u/0/?fs=1&to=dhamejanishivam@gmail.com&cc=shivam9644971120@gmail.com&su=Conatct+From+Your+Website&body=Hi+Shivam,+I+just+saw+your+website+and+I+want+to+hire+you&tf=cm" target="_blank">Gmail</a>
+                </div>
+
+
+
+            </div>
+            
+
+        </div>
+
+     </section>
+
+
+
+
+    <main id="mainSectionId">
         <section class="firstSection">
 
 
@@ -189,7 +256,7 @@
 
 
 
-    <footer>
+    <footer id="footerId">
         <div class="footer">
             <div class="footer-first">
                 <h3>
@@ -203,14 +270,14 @@
                     <li><a href="">Home</a></li>
                     <li><a href="#aboutMe">About Me</a></li>
                     <li><a href="#projectLine">Projects</a></li>
-                    <li><a href="https://mail.google.com/mail/?view=cm&fs=1&to=dhamejanishivam@gmail.com&su=Conatct From Your Website&body=Hi Shivam, I just saw your website and I want to say that">Conatact Me</a></li>
+                    <li><a href="https://mail.google.com/mail/u/0/?fs=1&to=dhamejanishivam@gmail.com&cc=shivam9644971120@gmail.com&su=Conatct+From+Your+Website&body=Hi+Shivam,+I+just+saw+your+website+and+I+want+to+hire+you&tf=cm" target="_blank" >Email Me</a></li>
                 </ul>
             </div>
 
  
 
             <!-- This below is link for Gmail with a predefined Subject and Body -->
-            <!-- https://mail.google.com/mail/?view=cm&fs=1&to=dhamejanishivam@gmail.com&su=Conatct From Your Website&body=Hi Shivam, I just saw your website and I think that -->
+            <!-- https://mail.google.com/mail/u/0/?fs=1&to=dhamejanishivam@gmail.com&cc=shivam9644971120@gmail.com&su=Conatct+From+Your+Website&body=Hi+Shivam,+I+just+saw+your+website+and+I+want+to+hire+you&tf=cm -->
             <div class="footer-third">
                 <ul>
                     <li>
@@ -222,7 +289,7 @@
                     </li>
 
                     <li>
-                    <img src="assets/images/gmail.png" alt=""><a href="https://mail.google.com/mail/?view=cm&fs=1&to=dhamejanishivam@gmail.com&su=Conatct From Your Website&body=Hi Shivam, I just saw your website and I want to say that" target="_blank"> Gmail</a>
+                    <img src="assets/images/gmail.png" alt=""><a href="https://mail.google.com/mail/u/0/?fs=1&to=dhamejanishivam@gmail.com&cc=shivam9644971120@gmail.com&su=Conatct+From+Your+Website&body=Hi+Shivam,+I+just+saw+your+website+and+I+want+to+hire+you&tf=cm" target="_blank"> Gmail</a>
                     </li>
 
                     <li>
