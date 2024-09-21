@@ -31,6 +31,6 @@ No part of this project may be copied, reproduced, or distributed without writte
 ## 🛠️ Tech Stack
 
 - **Frontend**: HTML, CSS, JavaScript
-- **Backend**: PHP (if applicable), Python (for specific tools or projects)
-- **Design**: Figma (if applicable)
-- **Hosting**: GitHub Pages (or any other service used)
+- **Backend**: JS
+- **Design**: SELF
+- **Hosting**: GitHub Pages, HOSTINGER
