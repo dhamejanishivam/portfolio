@@ -1,19 +1,4 @@
-// Typing Animation:
-var typed = new Typed("#element", {
-  strings: [
-    "Python Developer",
-    "Web Developer",
-    "Data Structures Specialist",
-    "C/C++ Enthusiast",
-    "Communication Skills Enthusiast",
-    "SQL Expert",
-    "Linux User",
-    "GitHub Contributor",
-  ],
-  typeSpeed: 30,
-  backSpeed: 15,
-  loop: true,
-});
+
 const spotlight = document.getElementById("spotlight");
 
 // Spotlight:
@@ -138,3 +123,32 @@ function typer() {
   typeWriter();
   typerExecuted = true;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Typing Animation:
+var typed = new Typed("#element", {
+  strings: [
+    "Python Developer",
+    "Web Developer",
+    "Data Structures Specialist",
+    "C/C++ Enthusiast",
+    "Communication Skills Enthusiast",
+    "SQL Expert",
+    "Linux User",
+    "GitHub Contributor",
+  ],
+  typeSpeed: 30,
+  backSpeed: 15,
+  loop: true,
+});

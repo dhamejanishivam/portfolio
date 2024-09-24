@@ -1,0 +1,91 @@
+/* Navbar */
+nav{
+    font-size: 16px;
+}
+
+
+
+
+
+/* Main Body */
+.mainSection{
+    width: 100vw;
+}
+
+.mainSection:nth-child(n){
+    /* background-color: red; */
+    margin: 0;
+    padding: 0;
+}
+
+
+#maincode{
+    height: 100vh;
+}
+
+
+
+
+
+
+
+/* Footer */
+footer{
+    width: 96vw;
+    margin: 0;
+    padding: 0;
+
+    /* top right bottom left */
+    padding: 15px 5px 2px 15px;
+}
+
+footer :nth-child(2n){
+    margin: 0;
+    padding: 0;
+}
+footer :nth-child(2n+1){
+    margin: 0;
+    padding: 0;
+}
+
+.footer ul li{
+    font-size: 12px;
+}
+
+.footer-first {
+    font-size: 14px;
+}
+
+.footer-second{
+    /* background-color: red; */
+    width: 30% !important;
+}
+
+.footer-third{
+    /* background-color: green; */
+
+}
+
+.footer-fourth{
+    width: 10% !important;
+    /* background-color: blue; */
+}
+
+footer .footer-rights{
+    margin-top: 10px;
+    font-size: 10px;
+}
+
+
+
+
+
+/* Utility class */
+
+h1{
+    font-size: 20px;
+}
+
+h2{
+    font-size: 18px;
+}
