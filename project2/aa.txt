@@ -1,0 +1,11 @@
+c:\xampp\htdocs\project_main\model\credentials.txt c:\xampp\htdocs\project_main\model\main.py c:\xampp\htdocs\project_main\model\modeln.joblib c:\xampp\htdocs\project_main\model\pipe.joblib c:\xampp\htdocs\project_main\model\result.txt c:\xampp\htdocs\project_main\model\send_otp.py
+
+
+
+c:\xampp\htdocs\project_main\assets\css\home.css c:\xampp\htdocs\project_main\assets\css\result.css c:\xampp\htdocs\project_main\assets\css\style.css
+
+c:\xampp\htdocs\project_main\assets\js\home.js c:\xampp\htdocs\project_main\assets\js\script.js
+
+c:\xampp\htdocs\project_main\php\download.php c:\xampp\htdocs\project_main\php\predict.php c:\xampp\htdocs\project_main\php\recoverpredict.txt c:\xampp\htdocs\project_main\php\save_data.php
+
+c:\xampp\htdocs\project_main\home.php c:\xampp\htdocs\project_main\index.php c:\xampp\htdocs\project_main\results.php

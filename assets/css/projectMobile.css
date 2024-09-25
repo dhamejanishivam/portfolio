@@ -8,12 +8,13 @@ nav{
 
 
 /* Main Body */
+
+
 .mainSection{
     width: 100vw;
 }
 
 .mainSection:nth-child(n){
-    /* background-color: red; */
     margin: 0;
     padding: 0;
 }
@@ -25,7 +26,22 @@ nav{
 
 
 
+/*  */
+.mainSection h1{
+    font-size: 1rem !important;
+}
 
+.paraAfter{
+    font-size: 0.9rem;
+}
+
+.downloadbtn{
+    font-size: 0.7rem;
+    /* margin-top: 20px; */
+}
+.paraGray{
+    font-size: 0.6rem;
+}
 
 
 

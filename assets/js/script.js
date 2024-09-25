@@ -141,8 +141,9 @@ var typed = new Typed("#element", {
   strings: [
     "Python Developer",
     "Web Developer",
-    "DSA Specialist",
+    "Data Structures Specialist",
     "C/C++ Enthusiast",
+    "Communication Skills Enthusiast",
     "SQL Expert",
     "Linux User",
     "GitHub Contributor",

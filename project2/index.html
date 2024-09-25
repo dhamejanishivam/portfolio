@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Projects</title>
+
+    <link rel="icon" type="image/x-icon" href="assets/images/logos/logo.png">
+
+
+    <!-- Loading Fonts: -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sofadi+One&display=swap" rel="stylesheet">
+
+
+
+    <!-- Code Style sheets -->
+    <!-- Load highlight.js theme (monokai-sublime) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/monokai-sublime.min.css">
+
+    <!-- Load highlight.js and line numbers plugin -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/wcoder/highlightjs-line-numbers.js@2.7.0/dist/highlightjs-line-numbers.min.js"></script>
+
+    <script>
+        // Initialize Highlight.js and line numbers on load
+        hljs.initHighlightingOnLoad();
+        hljs.initLineNumbersOnLoad();
+    </script>
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- Code Style Sheets End Here -->
+
+    <!-- My Style sheet -->
+    <link rel="stylesheet" href="../assets/css/project.css">
+    <link rel="stylesheet" media="screen and (max-width:600px)" href="../assets/css/projectMobile.css">
+
+</head>
+
+<body>
+    <header id="headerId">
+        <nav>
+            <div class="left">Shivam's Portfolio</div>
+            <div class="right">
+                <ul>
+                    <li><a href="index.html" onclick="unhideBody();">Home</a></li>
+                    <li><a href="index.html#aboutMe" onclick="unhideBody();">About Me</a></li>
+                    <li><a href="index.html#projectLine" onclick="unhideBody();">Projects</a></li>
+                    <li><a onclick="contactMeFun();">Contact Me</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="mainSection">
+
+        <br>
+        <h1 class="text-center">HEART DISEASE PREDICTOR PROJECT</h1>
+        
+        <div class="codeBox">
+            <pre class="codeblock">
+                <!-- <h1>Code for Heart Disease Predictor</h1> -->
+                <div class="insidecodeblock">
+                    <h2>main.py</h2>
+                    <button class="copycodebtn" id="copybutton" onclick="copyCode();">Copy <i class="fa fa-copy" style="font-size:14px"></i></button>
+                </div>
+<code class="python" id="maincode">from joblib import dump, load
+import numpy as np
+import pandas as pd
+from sklearn.impute import SimpleImputer
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+import sys
+import os
+import io
+
+# 34,0,1,118,210,0,1,192,0,.7,2,0,2 == 1
+# 52,1,0,128,204,1,1,156,1,1,1,0,0 == 0
+
+
+
+model_path = 'C:/xampp/htdocs/project_main/model/modeln.joblib'
+pipeline_path = 'C:/xampp/htdocs/project_main/model/pipe.joblib'
+
+
+class Main():
+    def __init__(self):
+        # self.data = [[42, 1, 3, 148, 244, 0, 0, 178, 0, 0.8, 2, 2, 2]]
+        self.base_dir = os.path.dirname(os.path.abspath(__file__))
+        self.symptoms_input = sys.argv[1]  # Input comes as a single string
+        
+        self.data = list(map(float, self.symptoms_input.split(',')))
+        self.data = [self.data]
+        self.processingData()
+
+
+    def processingData(self):
+        # Create a DataFrame
+        df = pd.DataFrame(self.data, columns=['age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 
+                                        'restecg', 'thalach', 'exang', 'oldpeak','slope', 'ca','thal'])
+        # Pipeline for data preprocessing
+        my_pipeline = load(pipeline_path)
+        # Transform the data
+        self.prepared_data = my_pipeline.transform(df)
+        self.loading_and_predicting()
+
+
+    def loading_and_predicting(self):
+        model = load(model_path)
+        self.predict = model.predict(self.prepared_data)
+        # print("type :",type(self.predict))
+        # print(self.predict)
+        self.savingResult()
+
+
+    def savingResult(self):
+        prediction = self.predict
+        # print(prediction)
+        if((prediction[0])*100) >= 90:
+            prediction[0] = 0.90
+        elif((prediction[0]*100)) <= 5:
+            prediction[0] = 0.05
+        # print(11)
+        print(prediction[0])
+
+
+        result = "Disease likely" if self.predict > 0.5 else "Disease unlikely"
+        percent = int((round(float(self.predict[0]),2))*100)
+        data = f"{percent}%\n{result}"
+        # print(data)
+        with open(f"{self.base_dir}\\result.txt","w") as f:
+            f.write(data)
+
+obj = Main()
+    </code>
+            </pre>
+
+        </div>
+
+
+        <div class="downloadArea">
+            <h2 class="paraAfter">Download all project files:</h2>
+            <a href="../assets/other/heartdiseaseproject.rar" class="downloadA">
+                <button class="downloadbtn">
+                    Download
+                </button>
+            </a>
+            
+            
+        </div>
+        <p class="paraGray">Read the readme file to get a complete understanding on how this project works</p>
+
+
+
+    </main>
+
+
+
+
+</body>
+
+</html>
+
+
+
+    <div id="spotlight"></div>
+
+
+
+    <footer id="footerId">
+        <div class="footer">
+            <div class="footer-first">
+                <h3>
+                    Shivam's Developer Portfolio
+                </h3>
+            </div>
+
+
+            <div class="footer-second">
+                <ul>
+                    <li><a href="">Home</a></li>
+                    <li><a href="#aboutMe">About Me</a></li>
+                    <li><a href="#projectLine">Projects</a></li>
+                    <li><a href="https://mail.google.com/mail/u/0/?fs=1&to=dhamejanishivam@gmail.com&cc=shivam9644971120@gmail.com&su=Conatct+From+Your+Website&body=Hi+Shivam,+I+just+saw+your+website+and+I+want+to+hire+you&tf=cm" target="_blank" >Email Me</a></li>
+                </ul>
+            </div>
+
+ 
+
+            <!-- This below is link for Gmail with a predefined Subject and Body -->
+            <!-- https://mail.google.com/mail/u/0/?fs=1&to=dhamejanishivam@gmail.com&cc=shivam9644971120@gmail.com&su=Conatct+From+Your+Website&body=Hi+Shivam,+I+just+saw+your+website+and+I+want+to+hire+you&tf=cm -->
+            <div class="footer-third">
+                <ul>
+                    <li>
+                    <img src="assets/images/linkedin.png" alt=""><a href="https://www.linkedin.com/in/shivam-dhamejani-66b461245/" target="_blank"> Linked in</a>
+                    </li>
+
+                    <li>
+                    <img src="assets/images/insta.png" alt=""><a href="https://www.instagram.com/shivam__dhamejani" target="_blank"> Instagram</a>
+                    </li>
+
+                    <li>
+                    <img src="assets/images/gmail.png" alt=""><a href="https://mail.google.com/mail/u/0/?fs=1&to=dhamejanishivam@gmail.com&cc=shivam9644971120@gmail.com&su=Conatct+From+Your+Website&body=Hi+Shivam,+I+just+saw+your+website+and+I+want+to+hire+you&tf=cm" target="_blank"> Gmail</a>
+                    </li>
+
+                    <li>
+                    <img src="assets/images/goodread.png" alt=""><a href="https://www.goodreads.com/user/show/151649043-shivam-dhamejani" target="_blank"> Good-Reads</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="footer-fourth">
+                <!-- Scroll Up Button -->
+                <button onclick="scrollToTop()" id="scrollUpBtn" >▲</button>
+            </div>
+
+        </div>
+
+        <div class="footer-rights">
+            &#169; www.shivamsportfolio.com | All rights reserved
+        </div>
+
+    </footer>
+
+
+
+    <script src="../assets/js/project.js"></script>
+
+
+</body>
+
+</html>
+

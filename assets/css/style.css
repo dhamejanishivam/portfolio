@@ -197,12 +197,9 @@ main hr {
   font-size: 11px;
 }
 
-
-
 /* ____________________________PROJECT SECTION______________________________________  */
 
-
-.projectSection{
+.projectSection {
   width: 70vw;
   margin: auto;
   padding: 0;
@@ -210,12 +207,12 @@ main hr {
   flex-direction: column;
   flex-wrap: wrap;
 }
-.projectSection h1{
+.projectSection h1 {
   margin: auto;
   width: 100%;
   text-align: center;
 }
-.projectBox{
+.projectBox {
   width: 100%;
   display: flex;
   border: 2px solid black;
@@ -227,7 +224,7 @@ main hr {
   padding: 1rem;
 }
 
-.projectBox .projecttitle a{
+.projectBox .projecttitle a {
   text-decoration: none;
   color: white;
   font-size: 1.5rem;
@@ -236,40 +233,38 @@ main hr {
   cursor: pointer;
 }
 
-.projectBox .projecttitle a:hover{
-color: lightblue;
-color: rgb(200, 221, 228);
-font-size: 1.55rem;
-text-shadow: -0.8px -0.8px;
+.projectBox .projecttitle a:hover {
+  color: lightblue;
+  color: rgb(200, 221, 228);
+  font-size: 1.55rem;
+  text-shadow: -0.8px -0.8px;
 }
 
 .viewSource {
-  display: inline-block; 
+  display: inline-block;
   font-size: 0.8rem;
   text-decoration: underline;
-  margin-top: 4px; 
+  margin-top: 4px;
   cursor: pointer;
   font-weight: 700;
 }
-.fa{
-  color:#838383;
-  font-size:0.8rem;
+.fa {
+  color: #838383;
+  font-size: 0.8rem;
   cursor: pointer;
   font-weight: 800;
   transition: all 0.4s ease-in-out;
 }
-.fa:hover, .viewSource:hover{
-color: white;
-font-size: 0.9rem;
+.fa:hover,
+.viewSource:hover {
+  color: white;
+  font-size: 0.9rem;
 }
 
-.projectBox .projectDetail{
+.projectBox .projectDetail {
   margin-top: 30px;
-  color:#d4d4d4;
+  color: #d4d4d4;
 }
-
-
-
 
 /* Third Section */
 
@@ -331,7 +326,6 @@ font-size: 0.9rem;
   top: 2px;
   right: 2px;
 }
-
 
 /* ____________HIDDEN CONTACT FORM */
 
@@ -511,7 +505,7 @@ footer .footer-rights {
     flex-direction: column;
   }
 
-  .leftSection{
+  .leftSection {
     width: 80% !important;
   }
 
@@ -577,9 +571,8 @@ footer .footer-rights {
     min-width: max-content;
   }
 
-
-  #projectLine{
-    margin-top: 100px !important;
+  #projectLine {
+    margin-top: 0px !important;
   }
 
   .projectSection {
@@ -587,7 +580,7 @@ footer .footer-rights {
     align-items: center;
   }
 
-  .projectSection .projectBox{
+  .projectSection .projectBox {
     width: 100% !important;
   }
 
@@ -659,8 +652,5 @@ footer .footer-rights {
   font-weight: 400;
   font-style: normal;
 }
-
-
-
 
 /*  */
