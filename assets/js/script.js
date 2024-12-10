@@ -41,7 +41,12 @@ function scrollToTop() {
 }
 
 function downloadResume() {
-  window.open("assets/other/myresume.pdf", "_blank");
+  const link = document.createElement("a"); // Create a new anchor element
+  link.href = "assets/other/myresume.pdf"; // File URL
+  link.download = "ShivamDhamejani_Resume.pdf"; // Specify the download filename
+  document.body.appendChild(link); // Append the link to the document
+  link.click(); // Trigger the download
+  document.body.removeChild(link); // Remove the link after download
 }
 
 function visitGithub() {
