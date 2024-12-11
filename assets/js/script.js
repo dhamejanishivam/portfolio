@@ -47,6 +47,7 @@ function downloadResume() {
   document.body.appendChild(link); // Append the link to the document
   link.click(); // Trigger the download
   document.body.removeChild(link); // Remove the link after download
+  window.location.href = 'assets/other/myresume.pdf';
 }
 
 function visitGithub() {
