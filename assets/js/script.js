@@ -8,6 +8,21 @@ document.addEventListener("mousemove", function (e) {
   spotlight.style.top = `${e.pageY}px`;
 });
 
+
+
+
+function scrollToFun(id) {
+  const element = document.getElementById(id);
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth' });
+  } else {
+    console.error(`Element with ID '${id}' not found.`);
+  }
+}
+
+
+var maxCharHighlighted = 0;
+
 // Show the button when the user scrolls down 700px from the top
 window.onscroll = function () {
   let scrollUpBtn = document.getElementById("scrollUpBtn");
@@ -23,15 +38,73 @@ window.onscroll = function () {
     scrollUpBtn.style.display = "none";
   }
 
-  // Handle the About Me paragraph typing animation
-  if (
-    (document.body.scrollTop > 900 ||
-      document.documentElement.scrollTop > 900) &&
-    !typerExecuted
-  ) {
-    aboutBox.classList.add("aboutBoxAni");
-    typer();
-    typerExecuted = true; // Set the flag to true so typer won't run again
+
+
+  // Project Section:
+  const projectSections = document.querySelectorAll(".projectSection .projectBox");
+  const minWidth = 60; // Minimum width percentage
+  const maxWidth = 100; // Maximum width percentage
+  
+  projectSections.forEach(element => {
+    const box = element.getBoundingClientRect();
+    if (box.top < window.innerHeight && box.top > window.innerHeight / 2) {
+      const diff = window.innerHeight - box.top; // Distance from bottom
+      const factor = 0.1; // Adjust this to control how fast width increases
+
+      // Calculate the percentage increase
+      let percentIncrease = Math.min(diff * factor, maxWidth - minWidth);
+
+      // Apply the width, ensuring it stays within minWidth and maxWidth
+      element.style.width = `${minWidth + percentIncrease}%`;
+
+      console.log(`Element width set to: ${minWidth + percentIncrease}%`);
+
+
+
+    }
+  })
+
+
+
+
+
+
+  var aboutMePara = document.getElementById("aboutMePara");
+  var rect = aboutMePara.getBoundingClientRect();
+  var windowHeight = window.innerHeight;
+
+
+  // if(rect.top < window.innerHeight && rect.bottom >= 0){
+  if(rect.top < window.innerHeight || rect.bottom >= 0 || 1 == 1){
+    
+    var visibleHeight = Math.min(windowHeight, rect.bottom) - Math.max(0, rect.top);
+
+    var fontSize = parseFloat(getComputedStyle(aboutMePara).fontSize);
+    var lineHeight = fontSize * 1.4;
+    var visbleLines = (visibleHeight/ lineHeight);
+
+    var maxLines = (((rect.bottom-rect.top)/lineHeight))
+    var totalCharacters = 373;
+    var charactersINOneLine = totalCharacters/maxLines;
+
+    var charsToHighlight = charactersINOneLine*(visbleLines-2);
+
+    if(window.screen.width<800 && rect.top<0){
+      charsToHighlight = totalCharacters
+    }
+    if(window.screen.width<800 && rect.top>window.innerHeight){
+      charsToHighlight = 0
+    }
+
+    if(visbleLines==maxLines){
+      charsToHighlight = charactersINOneLine*visbleLines
+    }
+
+    var textHighlight = (aboutMePara.innerText).substring(0, charsToHighlight);
+    var remainingText = aboutMePara.innerText.substring(charsToHighlight);
+
+    var updatedText = `<span class='highlitedText'>${textHighlight}</span>${remainingText}`
+    aboutMePara.innerHTML = updatedText;
   }
 };
 
@@ -55,9 +128,9 @@ function visitGithub() {
 }
 
 function contactMeFun() {
-  document.getElementById("mainSectionId").style.display = "none";
-  document.getElementById("footerId").style.display = "none";
-  document.getElementById("contactForm").style.display = "flex";
+
+  
+
 }
 
 function unhideBody(){
