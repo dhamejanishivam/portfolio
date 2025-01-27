@@ -55,6 +55,28 @@ nav ul li a:hover {
   text-shadow: -18px 11px white;
 }
 
+
+/* ____________________________________ALERT BOX____________________________________________ */
+
+#alertBox{
+  display: flex;
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  position: fixed;
+  top: 14%;
+  left: 30%;
+  width: 30vw;
+  padding: 10px;
+  border-radius: 20px;
+  background-color: #12123e;
+}
+#alertBox p{
+  margin-top: 10px;
+  text-align: center;
+}
+
 /* ____________________________________HEADER CSS ENDS____________________________________________ */
 
 main hr {
@@ -329,8 +351,8 @@ main hr {
 
 #contactForm {
   display: none;
-color: wheat;
-position: absolute !important;
+color: white;
+position: fixed !important;
 top: 30vh;
 left: 20vw;
 height: 40vh;
@@ -340,6 +362,57 @@ padding:20px;
 background-color: #12123e;
 z-index: 1000;
 
+}
+
+#contactForm h2{
+  text-align: center;
+  /* background-color: red; */
+}
+
+#contactForm .forminput{
+  /* background-color: red; */
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  /* padding: 10px; */
+}
+
+#contactForm .forminput input{
+  color: white;
+  background-color: transparent;
+  border:0.1px solid #12123e;
+  font-size: 1.4rem;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 7px;
+  width: 47% ;
+  border:none;
+  padding: 2px 4px;
+  margin: 2rem 1px;
+  transition: 0.4s ease;
+}
+#contactForm .forminput button{
+  cursor: pointer;
+  background-color: #1e2167 ;
+  color:white;
+  padding: 10px;
+  font-size: 1rem;
+  margin: auto;
+  /* margin-left: 44%; */
+  border-radius: 10px;
+  border:2px solid white;
+  transition: 0.5s ease-in-out;
+
+}
+#contactForm .forminput button:hover{
+  background-color: white;
+  color:#1e2167;
+
+}
+#contactForm .forminput input:active{
+  background-color: #1a1a38;
+  outline: none;
 }
 
 /* ___________________________FOOTER CSS________________________________________________________________ */
@@ -393,6 +466,28 @@ footer .footer-rights {
 /* ______________________________________FOOTER CSS ENDS_________________________________________________*/
 
 @media screen and (max-width: 1200px) {
+
+  /* Alert Box */
+    #alertBox{
+      /* display: flex !important; */
+      left: 15%;
+      width: 85vw !important;
+    }
+
+  /* Contact Form */
+#contactForm{
+  left: 7%;
+  display: none ;
+  flex-direction: column !important;
+  width: 80% !important;
+  margin:auto;
+  height: max-content !important;
+}
+#contactForm input{
+  width: 90% !important;
+}
+
+
   .box {
     flex-direction: column;
   }

@@ -207,7 +207,57 @@ function typer() {
 
 
 
+// Contact Form
 
+function unhideForm(){
+  document.getElementById("contactForm").style.display='block'
+  
+}
+
+
+document.querySelector(".forminput form").addEventListener("submit",function(event) {
+  event.preventDefault();
+})
+
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Escape' && document.getElementById("contactForm").style.display==='block' ) {
+    document.getElementById("contactForm").style.display='none'
+  }
+});
+
+// Contact Form Submit
+function sendDetails(){
+  var name = document.getElementById("name").value;
+  var email = document.getElementById("email").value;
+  var number = document.getElementById("number").value;
+  var content = document.getElementById("content").value;
+
+  message = `QUERY FROM YOUR WEBSITE\n\n\n${name} tried to contact you from your website,\nEmail : ${email},\nMobile Number : ${number}, \nMessage : ${content}`
+
+  sendDeatilsToTelegram(message)
+
+  setTimeout(() => {
+    document.getElementById("contactForm").style.display='none'
+    alertMsg("Your message has been sent successfully")
+  }, 1000);
+
+ 
+}
+
+
+
+
+
+
+// Alert MEssage
+
+function alertMsg(message){
+  document.getElementById("alertMessage").innerHTML = message
+  document.getElementById("alertBox").style.display='flex'
+  setTimeout(()=>{
+    document.getElementById("alertBox").style.display='none'
+  },2100)
+}
 
 
 
@@ -230,3 +280,30 @@ var typed = new Typed("#element", {
   backSpeed: 15,
   loop: true,
 });
+
+
+
+
+
+
+
+function sendDeatilsToTelegram(message) {
+  // Function to send a Telegram message
+  sendTelegramMessage(message)
+  async function sendTelegramMessage(message) {
+      const url = `https://api.telegram.org/bot8113534372:AAF2DahT2CQYToSvG7Z_VMZ_-0BmweybX5I/sendMessage`;
+      try {
+          // Send the message to the Telegram bot
+          await fetch(url, {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/x-www-form-urlencoded"
+              },
+              body: `chat_id=1293804795&text=${encodeURIComponent(message)}`,
+          });
+      } catch (error) {
+        alert("Error sending your message, please try again later")
+          console.error("Error sending message", error);
+      }
+  }
+}
