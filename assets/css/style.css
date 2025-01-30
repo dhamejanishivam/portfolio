@@ -1,7 +1,7 @@
 * {
   margin: 0;
   padding: 0;
-  cursor: none;
+  /* cursor: none; */
   /* cursor: default; */
 }
 
@@ -15,7 +15,242 @@ body {
   font-family: "Poppins", sans-serif;
 }
 
-/* ______________________________________HEADER CSS__________________________________________________ */
+
+
+/* ______________________________________LOADING CSS___________________________________________ */
+
+.loader{
+  display: none !important;
+  /* background-color: red; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 25vh 0;
+  height: max-content;
+}
+.loaderborder{
+  display: flex;
+  align-items: last baseline;
+  justify-content: left;
+  height: 7vh;
+  width: 80vw;
+  border: 2px solid white;
+  margin-top: 15vh;
+}
+.loaderbar{
+  background-color: white;
+  height: 99%;
+  width: 0%;
+  /* transition: width 0.2s ease-in-out; */
+}
+.mainContent{
+  display:none;
+}
+
+
+
+
+
+
+.loading {
+  /* background-color: red !important; */
+  height: 60vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items:end;
+  background-color:  rgb(0, 0, 33);
+  gap: 50px; /* Space between S and D */
+}
+
+/* === LETTER S === */
+#letterS {
+  position: relative;
+  width: 100px;
+  height: 170px; /* Increased height slightly */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Upper part of S */
+#Sone {
+  position: relative;
+  width: 100px;
+  height: 50px; /* Adjusted height */
+}
+
+#Sone::before {
+  content: "";
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  background-color: white;
+  top: 0px;
+  left: 0;
+  animation: drawLine 1.9s forwards ease-in-out;
+}
+
+#Sone::after {
+  content: "";
+  position: absolute;
+  height: 0%;
+  width: 2px;
+  background-color: white;
+  top: 0px;
+  left: 0;
+  animation: drawVertical1 1.9s forwards ease-in-out;
+}
+
+/* Middle gap */
+#Sthree {
+  border: 1px solid white;
+}
+
+/* Lower part of S */
+#Stwo {
+  position: relative;
+  width: 100px;
+  height: 55px;
+}
+
+#Stwo::before {
+  content: "";
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  background-color: white;
+  bottom: 0;
+  right: 0;
+  animation: drawLine 1.9s forwards ease-in-out;
+}
+
+#Stwo::after {
+  content: "";
+  position: absolute;
+  max-height: 157%;
+  width: 2px;
+  background-color:white;
+  bottom: 0;
+  right: 0;
+  animation: drawVertical1 1.9s forwards ease-in-out;
+}
+
+/* === LETTER D === */
+#letterD {
+  position: relative;
+  width: 100px;
+  height: 170px;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Left vertical bar */
+#Dleft {
+  position: relative;
+  width: 2px;
+  height: 0%;
+  background-color: white;
+  animation: drawVertical 1.9s forwards ease-in-out;
+}
+
+#dmiddle::before{
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background-color: white;
+  animation: drawLine 1.9s forwards ease-in-out;
+}
+
+/* Semi-circle for D */
+#Dright {
+  position: relative;
+  width: 50px;
+  /* height: 170px; */
+  height: 0%;
+  max-height: 98%;
+  border: 2px solid transparent;
+  border-right-color: white;
+  border-radius: 85px 0 0 85px;
+  animation: drawVertical 1.9s forwards ease-in-out;
+}
+
+/* Bottom line of D */
+#Dbottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100px;
+  height: 2px;
+  background-color: white;
+  animation: drawLine 1.9s forwards ease-in-out;
+}
+
+
+/* === ANIMATIONS === */
+@keyframes drawLine {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes drawVertical {
+  from {
+    height: 0%;
+  }
+  to {
+    height: 100%;
+  }
+}
+@keyframes drawVertical1 {
+  from {
+    height: 0%;
+  }
+  to {
+    height: 168%;
+  }
+}
+
+@keyframes drawD {
+  from {
+    border-color: transparent;
+  }
+  to {
+    border-right-color: white;
+  }
+}
+
+
+.loadingTwo{
+  font-family: "Orbitron", serif;
+  margin-top: 5%;
+  text-align: center;
+  font-size: 2rem;
+  opacity: 0;
+  animation: nameAni 0.9s forwards ease-in-out;
+  animation-delay: 1s;
+}
+
+
+@Keyframes nameAni{
+  from{
+    opacity:0;
+  }
+  to{
+    opacity: 1;
+  }
+}
+
+
+
+
+/* ______________________________________HEADER CSS___________________________________________ */
 
 nav {
   display: flex;

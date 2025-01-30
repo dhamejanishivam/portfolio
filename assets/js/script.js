@@ -10,9 +10,59 @@ document.addEventListener("mousemove", function (e) {
 
 
 
+// ____________________Loading Animation___________________________
+function loader() {
+  const loader = document.querySelector(".loaderbar");
+  const loaderContainer = document.querySelector(".loader");
+  // const mainContent = document.querySelector(".mainContent");
+
+  let startTime = null;
+  const totalDuration = 2100; // 
+
+  function animateLoader(timestamp) {
+      if (!startTime) startTime = timestamp; // Get start time
+      const progress = (timestamp - startTime) / totalDuration; // Progress (0 to 1)
+
+      if (progress < 1) {
+          loader.style.width = `${progress * 100}%`; // Update width smoothly
+          requestAnimationFrame(animateLoader);
+      } else {
+          loader.style.width = `100%`;
+          loaderContainer.style.display = "none";
+          mainContent.style.display = "block";
+      }
+  }
+
+  requestAnimationFrame(animateLoader);
+}
+
+// loader();
+
+function loader1(){
+
+  var loading = document.querySelector(".loading")
+  var loading2 = document.querySelector(".loadingTwo")
+  var mainContent = document.querySelector(".mainContent");
+  
+
+  setTimeout(()=>{
+    loading.style.display='none'
+    loading2.style.display='none'
+    mainContent.style.display='block'
+  },2500)
+
+}
+
+
+window.onload=loader1
+
+
+
+
 
 function scrollToFun(id) {
   const element = document.getElementById(id);
+  if(id=='home'){document.getElementById("contactForm").style.display='none'}
   if (element) {
     element.scrollIntoView({ behavior: 'smooth' });
   } else {
