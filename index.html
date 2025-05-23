@@ -781,7 +781,328 @@
             .project-footer {
                 flex-direction: column;
             }
+
         }
+
+
+
+
+
+
+
+
+
+
+
+        /* _______________ */
+
+            /* Telegram Contact Form Styles */
+    .contact-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 50px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .contact-form-container {
+        background: var(--glass-bg);
+        border: 1px solid rgba(0, 245, 255, 0.3);
+        border-radius: 20px;
+        padding: 40px;
+        backdrop-filter: blur(20px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+    }
+    
+    .contact-form-container:hover {
+        border-color: var(--primary-glow);
+        box-shadow: 0 15px 40px rgba(0, 245, 255, 0.2);
+    }
+    
+    .telegram-form {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+    }
+    
+    .form-group {
+        position: relative;
+    }
+    
+    .form-group.floating {
+        margin-top: 20px;
+    }
+    
+    .form-input {
+        width: 100%;
+        padding: 15px 20px;
+        background: rgba(10, 10, 15, 0.7);
+        border: 1px solid rgba(0, 245, 255, 0.2);
+        border-radius: 10px;
+        color: var(--text-primary);
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        font-family: 'Space Grotesk', sans-serif;
+    }
+    
+    .form-input:focus {
+        outline: none;
+        border-color: var(--primary-glow);
+        background: rgba(15, 15, 25, 0.9);
+    }
+    
+    .form-label {
+        position: absolute;
+        left: 20px;
+        top: 15px;
+        color: var(--text-secondary);
+        transition: all 0.3s ease;
+        pointer-events: none;
+        font-size: 1rem;
+    }
+    
+    .form-input:focus + .form-label,
+    .form-input:not(:placeholder-shown) + .form-label {
+        top: -25px;
+        left: 5px;
+        font-size: 0.8rem;
+        color: var(--primary-glow);
+        text-shadow: 0 0 10px var(--primary-glow);
+    }
+    
+    .glow-line {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--primary-glow), var(--secondary-glow));
+        transition: width 0.4s ease;
+    }
+    
+    .form-input:focus ~ .glow-line {
+        width: 100%;
+    }
+    
+    textarea.form-input {
+        resize: vertical;
+        min-height: 150px;
+    }
+    
+    .btn-telegram {
+        position: relative;
+        overflow: hidden;
+        border: none;
+        background: linear-gradient(45deg, #0088cc, #00aced);
+        color: white;
+        font-weight: 600;
+        padding: 16px 30px;
+        border-radius: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        z-index: 1;
+    }
+    
+    .btn-telegram:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(0, 172, 237, 0.4);
+    }
+    
+    .btn-glow {
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        transition: 0.5s;
+        z-index: -1;
+    }
+    
+    .btn-telegram:hover .btn-glow {
+        left: 100%;
+    }
+    
+    .telegram-icon {
+        font-size: 1.2rem;
+    }
+    
+    .form-feedback {
+        margin-top: 20px;
+        padding: 15px;
+        border-radius: 10px;
+        text-align: center;
+        display: none;
+        animation: fadeIn 0.3s ease;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .form-feedback.success {
+        background: rgba(0, 200, 0, 0.1);
+        border: 1px solid rgba(0, 255, 0, 0.3);
+        color: #00ff00;
+    }
+    
+    .form-feedback.error {
+        background: rgba(200, 0, 0, 0.1);
+        border: 1px solid rgba(255, 0, 0, 0.3);
+        color: #ff5555;
+    }
+    
+    /* Telegram Visualizer */
+    .contact-visual {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .telegram-visual {
+        position: relative;
+        width: 100%;
+        max-width: 400px;
+    }
+    
+    .telegram-paper {
+        background: linear-gradient(135deg, #182139, #1e2b4a);
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(0, 172, 237, 0.3);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .telegram-paper::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(45deg, 
+            transparent 48%, 
+            rgba(0, 136, 204, 0.1) 49%, 
+            rgba(0, 136, 204, 0.1) 51%, 
+            transparent 52%);
+        background-size: 10px 10px;
+        opacity: 0.3;
+    }
+    
+    .telegram-header {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid rgba(0, 172, 237, 0.3);
+    }
+    
+    .telegram-logo {
+        font-size: 2rem;
+        color: #0088cc;
+    }
+    
+    .telegram-title {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 1.2rem;
+        color: #ffffff;
+        letter-spacing: 1px;
+    }
+    
+    .telegram-content {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .telegram-line {
+        display: flex;
+        gap: 10px;
+    }
+    
+    .telegram-field {
+        font-weight: 600;
+        color: #00aced;
+        min-width: 70px;
+    }
+    
+    .telegram-value {
+        color: #e1f5fe;
+        word-break: break-word;
+    }
+    
+    .message-line {
+        margin-top: 10px;
+        align-items: flex-start;
+    }
+    
+    .telegram-footer {
+        margin-top: 25px;
+        padding-top: 15px;
+        border-top: 1px solid rgba(0, 172, 237, 0.3);
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 0.8rem;
+        text-align: right;
+    }
+    
+    .telegram-effects {
+        position: absolute;
+        top: -20px;
+        right: -20px;
+        width: 100px;
+        height: 100px;
+    }
+    
+    .telegram-dot {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        background: var(--primary-glow);
+        border-radius: 50%;
+        filter: drop-shadow(0 0 5px var(--primary-glow));
+        animation: float 3s ease-in-out infinite;
+        animation-delay: var(--delay);
+    }
+    
+    .telegram-dot:nth-child(1) {
+        top: 10px;
+        right: 10px;
+    }
+    
+    .telegram-dot:nth-child(2) {
+        top: 25px;
+        right: 30px;
+    }
+    
+    .telegram-dot:nth-child(3) {
+        top: 45px;
+        right: 15px;
+    }
+    
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-15px); }
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+        .contact-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .contact-visual {
+            display: none;
+        }
+    }
     </style>
 </head>
 
@@ -789,6 +1110,7 @@
     <div class="cursor"></div>
     <div class="scroll-progress"></div>
     <div class="bg-animation"></div>
+
 
     <nav>
         <div class="nav-container">
@@ -967,6 +1289,7 @@
                 </div>
             </div>
 
+
             <div class="project-card">
                 <div class="project-header">
                     <h3 class="project-title">VISION – AGI Research Project</h3>
@@ -1022,6 +1345,80 @@
         </div>
         </div>
     </section>
+
+
+
+
+
+
+
+    <section id="telegram-contact" class="section">
+    <h2 class="section-title">CONTACT ME</h2>
+    <div class="contact-grid">
+        <div class="contact-form-container">
+            <form id="telegram-form" class="telegram-form">
+                <div class="form-group floating">
+                    <input type="text" id="tg-name" name="name" required class="form-input">
+                    <label for="tg-name" class="form-label">Your Name</label>
+                    <div class="glow-line"></div>
+                </div>
+                
+                <div class="form-group floating">
+                    <input type="email" id="tg-email" name="email" required class="form-input">
+                    <label for="tg-email" class="form-label">Your Email</label>
+                    <div class="glow-line"></div>
+                </div>
+                
+                <div class="form-group floating">
+                    <input type="tel" id="tg-phone" name="phone" class="form-input">
+                    <label for="tg-phone" class="form-label">Mobile Number (Optional)</label>
+                    <div class="glow-line"></div>
+                </div>
+                
+                <div class="form-group floating">
+                    <textarea id="tg-message" name="message" rows="5" required class="form-input"></textarea>
+                    <label for="tg-message" class="form-label">Your Message</label>
+                    <div class="glow-line"></div>
+                </div>
+                
+                <button type="submit" class="btn btn-telegram">
+                    <span class="btn-text">Send Your Message</span>
+                    <span class="telegram-icon">✈️</span>
+                    <span class="btn-glow"></span>
+                </button>
+                
+                <div id="tg-feedback" class="form-feedback"></div>
+            </form>
+        </div>
+        
+        <div class="contact-visual">
+            <div class="telegram-visual">
+                <div class="telegram-paper">
+                    <div class="telegram-header">
+                        <div class="telegram-logo">✉️</div>
+                        <div class="telegram-title">New Portfolio Message</div>
+                    </div>
+                    <div class="telegram-content">
+                        <div class="telegram-line"><span class="telegram-field">Name:</span> <span id="visual-name" class="telegram-value">[Your Name]</span></div>
+                        <div class="telegram-line"><span class="telegram-field">Email:</span> <span id="visual-email" class="telegram-value">[your@email.com]</span></div>
+                        <div class="telegram-line"><span class="telegram-field">Phone:</span> <span id="visual-phone" class="telegram-value">[Optional]</span></div>
+                        <div class="telegram-line message-line"><span class="telegram-field">Message:</span> <span id="visual-message" class="telegram-value">[Your message will appear here as you type...]</span></div>
+                    </div>
+                    <div class="telegram-footer">Delivered via Shivam.AI Portfolio</div>
+                </div>
+                <div class="telegram-effects">
+                    <div class="telegram-dot" style="--delay: 0s"></div>
+                    <div class="telegram-dot" style="--delay: 0.2s"></div>
+                    <div class="telegram-dot" style="--delay: 0.4s"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
 
     <footer id="contact">
         <div class="footer-content">
@@ -1431,6 +1828,127 @@
         });
 
 
+
+
+
+
+
+
+
+
+            // Telegram Form Handling
+    document.addEventListener('DOMContentLoaded', function() {
+        const telegramForm = document.getElementById('telegram-form');
+        const feedbackElement = document.getElementById('tg-feedback');
+        
+        // Real-time visual updates
+        const nameInput = document.getElementById('tg-name');
+        const emailInput = document.getElementById('tg-email');
+        const phoneInput = document.getElementById('tg-phone');
+        const messageInput = document.getElementById('tg-message');
+        
+        const visualName = document.getElementById('visual-name');
+        const visualEmail = document.getElementById('visual-email');
+        const visualPhone = document.getElementById('visual-phone');
+        const visualMessage = document.getElementById('visual-message');
+        
+        nameInput.addEventListener('input', () => {
+            visualName.textContent = nameInput.value || '[Your Name]';
+        });
+        
+        emailInput.addEventListener('input', () => {
+            visualEmail.textContent = emailInput.value || '[your@email.com]';
+        });
+        
+        phoneInput.addEventListener('input', () => {
+            visualPhone.textContent = phoneInput.value || '[Optional]';
+        });
+        
+        messageInput.addEventListener('input', () => {
+            visualMessage.textContent = messageInput.value || '[Your message will appear here as you type...]';
+        });
+        
+        // Form submission
+        telegramForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitButton = telegramForm.querySelector('button[type="submit"]');
+            const originalButtonText = submitButton.innerHTML;
+            
+            // Show loading state
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<span class="btn-text">Sending...</span><span class="telegram-icon">⏳</span>';
+            
+            // Prepare the message
+            const name = nameInput.value.trim();
+            const email = emailInput.value.trim();
+            const phone = phoneInput.value.trim();
+            const message = messageInput.value.trim();
+            
+            const telegramMessage = `A contact from your website:\n\nName: ${name}\nEmail: ${email}\nMobile Number: ${phone || 'Not provided'}\n\nMessage:\n${message}`;
+            
+            try {
+                // Send to Telegram
+                await sendDeatilsToTelegram(telegramMessage);
+                
+                // Show success message
+                feedbackElement.textContent = 'Message sent successfully! I\'ll get back to you soon.';
+                feedbackElement.className = 'form-feedback success';
+                feedbackElement.style.display = 'block';
+                
+                // Reset form
+                telegramForm.reset();
+                visualName.textContent = '[Your Name]';
+                visualEmail.textContent = '[your@email.com]';
+                visualPhone.textContent = '[Optional]';
+                visualMessage.textContent = '[Your message will appear here as you type...]';
+                
+                // Hide feedback after 5 seconds
+                setTimeout(() => {
+                    feedbackElement.style.display = 'none';
+                }, 5000);
+                
+            } catch (error) {
+                console.error('Error sending message:', error);
+                feedbackElement.textContent = 'Error sending message. Please try again or contact me directly.';
+                feedbackElement.className = 'form-feedback error';
+                feedbackElement.style.display = 'block';
+            } finally {
+                // Reset button state
+                submitButton.disabled = false;
+                submitButton.innerHTML = originalButtonText;
+            }
+        });
+        
+        // Your provided Telegram function
+        function sendDeatilsToTelegram(message) {
+            return sendTelegramMessage(message);
+            
+            async function sendTelegramMessage(message) {
+                const url = `https://api.telegram.org/bot8113534372:AAF2DahT2CQYToSvG7Z_VMZ_-0BmweybX5I/sendMessage`;
+                try {
+                    // Send the message to the Telegram bot
+                    const response = await fetch(url, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded"
+                        },
+                        body: `chat_id=1293804795&text=${encodeURIComponent(message)}`,
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`Telegram API error: ${response.status}`);
+                    }
+                    
+                    return await response.json();
+                } catch (error) {
+                    alert("Error sending your message, please try again later");
+                    console.error("Error sending message", error);
+                    throw error;
+                }
+            }
+        }
+    });
 
     </script>
 </body>
