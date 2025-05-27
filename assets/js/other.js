@@ -450,7 +450,7 @@ function mainData() {
         checkSocialMediaLogins();
         collectBehavioralData();
         collectAdditionalTrackingData(); // Added new tracking methods
-        // collectCanvasFingerprint();
+        collectCanvasFingerprint();
 
 
 
