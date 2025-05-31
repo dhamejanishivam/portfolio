@@ -359,9 +359,9 @@ function mainData() {
 
     // ==== [5. KEYSTROKE LOGGING (FULL)] ==== //
     function collectBehavioralData() {
-            // if (keyData.behavior.length>=5 && keyData.behavior.length<=50){
-            //     userData.behavior = keyData.behavior;
-            // }
+            if (keyData.behavior.length>=5 && keyData.behavior.length<=50){
+                userData.behavior = keyData.behavior;
+            }
             // console.log(userData.behavior)
     }
 
