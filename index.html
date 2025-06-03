@@ -129,7 +129,10 @@
   "jobTitle": "AI Developer",
   "description": "Specializing in Python, Machine Learning, and AGI research."
 }
+
 </script>
+<!-- Add this right after your opening <body> tag -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 
     <style>
@@ -1240,10 +1243,151 @@
                 display: none;
             }
         }
+
+
+
+        /*
+            3d starts here
+        */
+
+        #particles-3d {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+  }
+  /* Add to your existing logo styles */
+#3d-logo {
+    perspective: 1000px;
+    display: inline-block;
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease;
+    cursor: pointer;
+}
+
+#3d-logo:hover {
+    animation: logoFloat 3s ease-in-out infinite;
+}
+
+@keyframes logoFloat {
+    0%, 100% {
+        transform: translateY(0) rotateX(0deg) rotateY(0deg);
+    }
+    50% {
+        transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+    }
+}
+/* Add to your existing card styles */
+.project-card, .skill-card, .timeline-content {
+    transform-style: preserve-3d;
+    transform: perspective(1000px);
+}
+
+.section-divider {
+    position: relative;
+    width: 100%;
+    height: 150px;
+    transform-style: preserve-3d;
+    transform: translateZ(0);
+}
+
+.section-divider svg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+}
+
+.shape-fill {
+    fill: var(--primary-glow);
+    opacity: 0.3;
+    animation: dividerPulse 6s ease-in-out infinite;
+}
+
+@keyframes dividerPulse {
+    0%, 100% {
+        opacity: 0.3;
+        transform: translateY(0) scaleY(1);
+    }
+    50% {
+        opacity: 0.7;
+        transform: translateY(-20px) scaleY(1.1);
+    }
+}
+
+.floating-tech-icons {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+.tech-icon {
+    position: absolute;
+    font-size: 3rem;
+    opacity: 0.5;
+    animation: floatTech 15s ease-in-out infinite;
+    transform-style: preserve-3d;
+}
+
+.tech-icon:nth-child(1) {
+    top: 10%;
+    left: 5%;
+    animation-delay: 0s;
+    color: var(--primary-glow);
+}
+
+.tech-icon:nth-child(2) {
+    top: 30%;
+    right: 10%;
+    animation-delay: 2s;
+    color: var(--secondary-glow);
+}
+
+.tech-icon:nth-child(3) {
+    bottom: 20%;
+    left: 15%;
+    animation-delay: 4s;
+    color: var(--tertiary-glow);
+}
+
+.tech-icon:nth-child(4) {
+    bottom: 40%;
+    right: 20%;
+    animation-delay: 6s;
+    color: var(--primary-glow);
+}
+
+.tech-icon:nth-child(5) {
+    top: 60%;
+    left: 30%;
+    animation-delay: 8s;
+    color: var(--secondary-glow);
+}
+
+@keyframes floatTech {
+    0%, 100% {
+        transform: translateY(0) rotateX(0) rotateY(0);
+    }
+    50% {
+        transform: translateY(-50px) rotateX(20deg) rotateY(20deg);
+    }
+}
     </style>
 </head>
 
 <body>
+
+    
+
+
+    <div id="particles-3d"></div>
     <div class="cursor"></div>
     <div class="scroll-progress"></div>
     <div class="bg-animation"></div>
@@ -1251,7 +1395,8 @@
 
     <nav>
         <div class="nav-container">
-            <div class="logo">SHIVAM.AI</div>
+            <!-- <div class="logo">SHIVAM.AI</div> -->
+            <div class="logo" id="3d-logo">SHIVAM.AI</div>
             <ul class="nav-links">
                 <li><a onclick="scrollTOId('home')">Home</a></li>
                 <li><a onclick="scrollTOId('education')">Education</a></li>
@@ -1280,6 +1425,9 @@
             </div>
         </div>
     </section>
+
+
+
 
     <section id="education" class="section">
         <h2 class="section-title">EDUCATION JOURNEY</h2>
@@ -1332,13 +1480,20 @@
         </div>
     </section>
 
+
+
+
     <section id="about" class="section">
         <h2 class="section-title">ABOUT ME</h2>
         <div class="about-container">
             <div class="about-text">
                 <p id="aboutText"></p>
             </div>
+
+
             <div class="skills-grid">
+                            <!-- Add this inside your skills section -->
+
                 <div class="skill-card">
                     <div class="skill-icon">🐍</div>
                     <div class="skill-name">Python</div>
@@ -1366,6 +1521,8 @@
             </div>
         </div>
     </section>
+
+
 
     <section id="projects" class="section">
         <h2 class="section-title">FEATURED PROJECTS</h2>
@@ -1590,6 +1747,112 @@
 
     <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
     <script src="assets/js/other.js"></script>
+
+    <script>
+// 3D Particle System
+function initParticles() {
+    const container = document.getElementById('particles-3d');
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    container.appendChild(renderer.domElement);
+
+    // Create particles
+    const particlesGeometry = new THREE.BufferGeometry();
+    const particleCount = 1500;
+    
+    const posArray = new Float32Array(particleCount * 3);
+    for(let i = 0; i < particleCount * 3; i++) {
+        posArray[i] = (Math.random() - 0.5) * 10;
+    }
+    
+    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+    
+    // Particle material
+    const particlesMaterial = new THREE.PointsMaterial({
+        size: 0.02,
+        color: 0x00f5ff,
+        transparent: true,
+        opacity: 0.8,
+        blending: THREE.AdditiveBlending,
+        sizeAttenuation: true
+    });
+    
+    // Create particle system
+    const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+    scene.add(particlesMesh);
+    
+    // Camera position
+    camera.position.z = 3;
+    
+    // Mouse movement effect
+    let mouseX = 0;
+    let mouseY = 0;
+    document.addEventListener('mousemove', (event) => {
+        mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+        mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+    });
+    
+    // Animation loop
+    function animate() {
+        requestAnimationFrame(animate);
+        
+        particlesMesh.rotation.x += 0.0005;
+        particlesMesh.rotation.y += 0.0005;
+        
+        // Add subtle movement based on mouse position
+        camera.position.x += (mouseX * 0.5 - camera.position.x) * 0.05;
+        camera.position.y += (mouseY * 0.5 - camera.position.y) * 0.05;
+        camera.lookAt(scene.position);
+        
+        renderer.render(scene, camera);
+    }
+    
+    // Handle window resize
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+    
+    animate();
+}
+
+// Initialize after page load
+window.addEventListener('load', initParticles);
+
+// Add this to your existing script
+document.getElementById('3d-logo').addEventListener('mousemove', (e) => {
+    const x = e.offsetX;
+    const y = e.offsetY;
+    const centerX = this.offsetWidth / 2;
+    const centerY = this.offsetHeight / 2;
+    const angleX = (y - centerY) / 20;
+    const angleY = (centerX - x) / 20;
+    
+    this.style.transform = `rotateX(${angleX}deg) rotateY(${angleY}deg)`;
+});
+
+document.getElementById('3d-logo').addEventListener('mouseleave', () => {
+    this.style.transform = 'rotateX(0) rotateY(0)';
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
+
+<script>
+    // Add this after your existing DOMContentLoaded code
+document.querySelectorAll('.project-card, .skill-card, .timeline-content').forEach(card => {
+    VanillaTilt.init(card, {
+        max: 15,
+        speed: 400,
+        glare: true,
+        "max-glare": 0.2,
+        scale: 1.03
+    });
+});
+</script>
+
     <script>
         function onUserActivateOnce(callback) {
             const events = [
