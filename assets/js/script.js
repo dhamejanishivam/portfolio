@@ -368,3 +368,4 @@ function sendDeatilsToTelegram(message) {
 }
 
 
+
