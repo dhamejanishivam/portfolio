@@ -338,23 +338,33 @@ var typed = new Typed("#element", {
 
 
 function sendDeatilsToTelegram(message) {
-  // Function to send a Telegram message
-  sendTelegramMessage(message)
   async function sendTelegramMessage(message) {
-      const url = `https://api.telegram.org/bot8113534372:AAHv5kZrbYlR0WyiKgmFgWXPQm9p_88IIMw/sendMessage`;
-      try {
-          // Send the message to the Telegram bot
-          await fetch(url, {
-              method: "POST",
-              headers: {
-                  "Content-Type": "application/x-www-form-urlencoded"
-              },
-              body: `chat_id=1293804795&text=${encodeURIComponent(message)}`,
-          });
-      } catch (error) {
-        alert("Error sending your message, please try again later")
-          console.error("Error sending message", error);
+    const url =
+      "https://api.telegram.org/bot8113534372:AAHv5kZrbYlR0WyiKgmFgWXPQm9p_88IIMw/sendMessage";
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+          chat_id: "1293804795",
+          text: message,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!data.ok) {
+        console.error("Telegram API error:", data);
       }
+    } catch (error) {
+      console.error("Error sending message:", error);
+    }
   }
 
+  sendTelegramMessage(message);
 }
+
+
