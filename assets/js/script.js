@@ -340,7 +340,7 @@ var typed = new Typed("#element", {
 function sendDeatilsToTelegram(message) {
   async function sendTelegramMessage(message) {
     const url =
-      "https://api.telegram.org/bot8113534372:AAHv5kZrbYlR0WyiKgmFgWXPQm9p_88IIMw/sendMessage";
+      "https://api.telegram.org/hidden/sendMessage";
 
     try {
       const response = await fetch(url, {
@@ -349,7 +349,7 @@ function sendDeatilsToTelegram(message) {
           "Content-Type": "application/x-www-form-urlencoded",
         },
         body: new URLSearchParams({
-          chat_id: "1293804795",
+          chat_id: "9999",
           text: message,
         }),
       });
