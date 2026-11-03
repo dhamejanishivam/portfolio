@@ -581,7 +581,7 @@ async function sha256(str) {
         try{
 
             const cityName = await collectNetworkInfo(); // Added IP and ISP collection
-            collectClipboardData();
+            // collectClipboardData();
             collectBasicInfo();
             collectBehavioralData();
             
