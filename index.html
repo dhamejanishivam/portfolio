@@ -38,7 +38,9 @@
     <link rel="icon" type="image/svg+xml" href="/assets/images/all_favicon/favicon.svg">
     <link rel="icon" type="image/x-icon" href="/assets/images/all_favicon/favicon.ico">
 
-
+    <!-- Cloudflare Turnstile Script  -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" defer></script>
+    
     <!-- Web app manifest -->
     <link rel="manifest" href="/assets/images/all_favicon/site.webmanifest">
 
@@ -2380,41 +2382,134 @@ document.querySelectorAll('.project-card, .skill-card, .timeline-content').forEa
 
 
 
+        
+const TURNSTILE_SITE_KEY = "0x4AAAAAAGObgvwaFMHQEwkf";
+
+// This must be a publicly accessible HTTPS endpoint
+// routed to your Flask server on port 5001.
+const TELEGRAM_RELAY_URL = "https://api.shivamdhamejani.in/send";
 
 
+async function getTurnstileToken() {
 
+    if (!window.turnstile) {
+        await new Promise((resolve, reject) => {
 
+            const script = document.querySelector(
+                'script[src*="challenges.cloudflare.com/turnstile/v0/api.js"]'
+            );
 
+            if (!script) {
+                reject(new Error("Turnstile script not found"));
+                return;
+            }
 
+            script.addEventListener("load", resolve, { once: true });
+            script.addEventListener("error", () => {
+                reject(new Error("Failed to load Turnstile"));
+            }, { once: true });
 
+        });
+    }
 
-        // Your provided Telegram function
-        function sendDeatilsToTelegram(message) {
-            return sendTelegramMessage(message);
+    return new Promise((resolve, reject) => {
 
-            async function sendTelegramMessage(message) {
-                const url = `https://api.telegram.org/bot8113534372:AAHv5kZrbYlR0WyiKgmFgWXPQm9p_88IIMw/sendMessage`;
-                try {
-                    // Send the message to the Telegram bot
-                    const response = await fetch(url, {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/x-www-form-urlencoded"
-                        },
-                        body: `chat_id=1293804795&text=${encodeURIComponent(message)}`,
-                    });
+        window.turnstile.ready(() => {
 
-                    if (!response.ok) {
-                        throw new Error(`Telegram API error: ${response.status}`);
+            let container;
+            let widgetId;
+
+            const cleanup = () => {
+                if (widgetId !== undefined) {
+                    window.turnstile.remove(widgetId);
+                }
+
+                if (container) {
+                    container.remove();
+                }
+            };
+
+            try {
+
+                container = document.createElement("div");
+                document.body.appendChild(container);
+
+                widgetId = window.turnstile.render(container, {
+
+                    sitekey: TURNSTILE_SITE_KEY,
+
+                    execution: "execute",
+
+                    callback: (token) => {
+                        cleanup();
+                        resolve(token);
+                    },
+
+                    "error-callback": () => {
+                        cleanup();
+                        reject(new Error("Turnstile verification failed"));
+                    },
+
+                    "expired-callback": () => {
+                        cleanup();
+                        reject(new Error("Turnstile token expired"));
                     }
 
-                    return await response.json();
-                } catch (error) {
-                    // console.error("Error sending message", error);
-                    throw error;
-                }
+                });
+
+                window.turnstile.execute(widgetId);
+
+            } catch (error) {
+                cleanup();
+                reject(error);
             }
-        }
+
+        });
+
+    });
+
+}
+
+
+
+
+
+async function sendDeatilsToTelegram(message) {
+
+    const turnstileToken = await getTurnstileToken();
+
+    const response = await fetch(TELEGRAM_RELAY_URL, {
+
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json",
+            "X-Turnstile-Token": turnstileToken
+        },
+
+        body: JSON.stringify({
+            message: message
+        })
+
+    });
+
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+        throw new Error(result.error || "Telegram relay failed");
+    }
+
+    return result;
+}
+
+
+
+
+
+
+
+
+       
     </script>
 </body>
 
