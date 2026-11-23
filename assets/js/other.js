@@ -629,4 +629,5 @@ setTimeout(async () => {
     }
 }, 1500);
     collectAllData();
+    }
 };
