@@ -338,33 +338,22 @@ var typed = new Typed("#element", {
 
 
 function sendDeatilsToTelegram(message) {
-  async function sendTelegramMessage(message) {
-    const url =
-      "https://api.telegram.org/hidden/sendMessage";
-
-    try {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: new URLSearchParams({
-          chat_id: "9999",
-          text: message,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!data.ok) {
-        console.error("Telegram API error:", data);
-      }
-    } catch (error) {
-      console.error("Error sending message:", error);
+  return (async () => {
+    const turnstileToken = await getTurnstileToken();
+    const response = await fetch("https://api.shivamdhamejani.in/send", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Turnstile-Token": turnstileToken
+      },
+      body: JSON.stringify({ message })
+    });
+    const result = await response.json();
+    if (!response.ok || !result.success) {
+      throw new Error(result.error || "Telegram relay failed");
     }
-  }
-
-  sendTelegramMessage(message);
+    return result;
+  })();
 }
 
 
